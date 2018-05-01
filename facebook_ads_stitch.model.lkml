@@ -8,7 +8,7 @@ include: "*.view"
 include: "facebook_*.dashboard"
 
 datagroup: facebook_etl_datagroup {
-  sql_trigger: SELECT MAX(_sdc_extracted_at) FROM ads_insight ;;
+  sql_trigger: SELECT MAX(_sdc_extracted_at) FROM facebook_ads.ads_insights ;;
   max_cache_age: "24 hours"
 }
 

@@ -29,38 +29,31 @@ view: campaigns {
     hidden: yes
     primary_key: yes
     type: string
-    sql: ${TABLE}.id ;;
   }
 
   dimension: account_id {
     hidden: yes
     type: string
-    sql: ${TABLE}.account_id ;;
   }
 
   dimension: ads {
     hidden: yes
-    sql: ${TABLE}.ads ;;
   }
 
   dimension: buying_type {
     type: string
-    sql: ${TABLE}.buying_type ;;
   }
 
   dimension: effective_status {
     type: string
-    sql: ${TABLE}.effective_status ;;
   }
 
   dimension: name {
     type: string
-    sql: ${TABLE}.name ;;
   }
 
   dimension: objective {
     type: string
-    sql: ${TABLE}.objective ;;
   }
 
   dimension_group: start {
@@ -91,20 +84,6 @@ view: campaigns {
     ]
     sql: ${TABLE}.updated_time ;;
   }
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
-
-  # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      name,
-      ads.count,
-      adsets.count
-    ]
-  }
 }
 
 view: campaigns__ads__data {
@@ -112,13 +91,11 @@ view: campaigns__ads__data {
     hidden: yes
     primary_key: yes
     type: string
-    sql: ${TABLE}.id ;;
   }
 }
 
 view: campaigns__ads {
   dimension: data {
     hidden: yes
-    sql: ${TABLE}.data ;;
   }
 }

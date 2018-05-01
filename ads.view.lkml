@@ -162,29 +162,24 @@ view: ads {
     hidden: yes
     primary_key: yes
     type: string
-    sql: ${TABLE}.id ;;
   }
 
   dimension: account_id {
     type: string
-    sql: ${TABLE}.account_id ;;
     hidden: yes
   }
 
   dimension: adset_id {
     type: string
-    sql: ${TABLE}.adset_id ;;
     hidden: yes
   }
 
   dimension: bid_amount {
     type: number
-    sql: ${TABLE}.bid_amount ;;
   }
 
   dimension: bid_info {
     hidden: yes
-    sql: ${TABLE}.bid_info ;;
   }
 
   dimension: bid_type {
@@ -282,28 +277,6 @@ view: ads {
       year
     ]
     sql: ${TABLE}.updated_time ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
-
-  # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      source_ad_id,
-      name,
-      adsets.created_time,
-      adsets.name,
-      adsets.id,
-      campaigns.name,
-      campaigns.id,
-      ads_insights.count,
-      ads_insights_age_and_gender.count,
-      ads_insights_country.count,
-      ads_insights_platform_and_device.count
-    ]
   }
 }
 
@@ -757,10 +730,10 @@ view: ads__tracking_specs {
     sql: ${TABLE}.action_type ;;
   }
 
-  dimension: pixel {
+  dimension: fb_pixel {
     hidden: yes
     type: string
-    sql: ${TABLE}.pixel ;;
+    sql: ${TABLE}.fb_pixel ;;
   }
 
   dimension: page {
