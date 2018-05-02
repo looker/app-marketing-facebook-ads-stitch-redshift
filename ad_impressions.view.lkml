@@ -3,7 +3,7 @@ include: "/app_marketing_analytics_config/facebook_ads_config.view"
 include: "adcreative.view"
 include: "insights_base.view"
 
-explore: ad_impressions_nested_joins_base {
+explore: ad_impressions_nested_joins_base_fb_adapter {
   extension: required
 
   join: ads_insights__video_30_sec_watched_actions {
@@ -73,42 +73,46 @@ explore: ad_impressions_nested_joins_base {
   }
 }
 
-explore: ad_impressions_base {
+explore: ad_impressions_base_fb_adapter {
   extension: required
-  extends: [ad_impressions_nested_joins_base, campaigns_nested_joins_base, adsets_nested_joins_base, ads_nested_joins_base, adcreative_nested_joins_base]
+  extends: [ad_impressions_nested_joins_base_fb_adapter, campaigns_nested_joins_base, adsets_nested_joins_base, ads_nested_joins_base, adcreative_nested_joins_base]
   view_name: fact
   label: "Ad Impressions"
   view_label: "Ad Impressions"
 
   join: campaigns {
+    from: campaigns_fb_adapter
     type: left_outer
     sql_on: ${fact.campaign_id} = ${campaigns.id} ;;
     relationship: many_to_one
   }
 
   join: adsets {
+    from: adsets_fb_adapter
     type: left_outer
     sql_on: ${fact.adset_id} = ${adsets.id} ;;
     relationship: many_to_one
   }
 
   join: ads {
+    from: ads_fb_adapter
     type: left_outer
     sql_on: ${fact.ad_id} = ${ads.id} ;;
     relationship: many_to_one
   }
 
   join: adcreative {
+    from: adcreative_fb_adapter
     type: left_outer
     sql_on: ${ads.creative_id} = ${adcreative.id} ;;
     relationship: one_to_one
   }
 }
 
-explore: ad_impressions {
-  extends: [ad_impressions_base]
+explore: ad_impressions_fb_adapter {
+  extends: [ad_impressions_base_fb_adapter]
   hidden: yes
-  from: ad_impressions
+  from: ad_impressions_fb_adapter
 
   join: ads_insights__relevance_score {
     view_label: "Ads Insights: Relevance Score"
@@ -117,7 +121,7 @@ explore: ad_impressions {
   }
 }
 
-view: ad_impressions {
+view: ad_impressions_fb_adapter {
   extends: [insights_base, facebook_ads_config]
   sql_table_name:
 (
@@ -166,13 +170,13 @@ view: ad_impressions {
   }
 }
 
-explore: ad_impressions_age_and_gender {
-  extends: [ad_impressions_base]
+explore: ad_impressions_age_and_gender_fb_adapter {
+  extends: [ad_impressions_base_fb_adapter]
   hidden: yes
-  from: ad_impressions_age_and_gender
+  from: ad_impressions_age_and_gender_fb_adapter
 }
 
-view: ad_impressions_age_and_gender {
+view: ad_impressions_age_and_gender_fb_adapter {
   extends: [insights_base, facebook_ads_config]
   sql_table_name:
 (
@@ -242,13 +246,13 @@ view: ad_impressions_age_and_gender {
   }
 }
 
-explore: ad_impressions_country {
-  extends: [ad_impressions_base]
+explore: ad_impressions_country_fb_adapter {
+  extends: [ad_impressions_base_fb_adapter]
   hidden: yes
-  from: ad_impressions_country
+  from: ad_impressions_country_fb_adapter
 }
 
-view: ad_impressions_country {
+view: ad_impressions_country_fb_adapter {
   extends: [insights_base, facebook_ads_config]
   sql_table_name:
   (
@@ -291,13 +295,13 @@ view: ad_impressions_country {
   }
 }
 
-explore: ad_impressions_platform_and_device {
-  extends: [ad_impressions_base]
+explore: ad_impressions_platform_and_device_fb_adapter {
+  extends: [ad_impressions_base_fb_adapter]
   hidden: yes
-  from: ad_impressions_platform_and_device
+  from: ad_impressions_platform_and_device_fb_adapter
 }
 
-view: ad_impressions_platform_and_device {
+view: ad_impressions_platform_and_device_fb_adapter {
   extends: [insights_base, facebook_ads_config]
   sql_table_name:
 (

@@ -43,32 +43,37 @@ explore: adcreative_nested_joins_base {
   }
 }
 
-explore: adcreative {
+explore: adcreative_fb_adapter {
+  view_name: adcreative
+  from: adcreative_fb_adapter
   extends: [adcreative_nested_joins_base]
   hidden: yes
 
   join: ads {
+    from: ads_fb_adapter
     type: left_outer
     sql_on: ${ads.creative_id} = ${adcreative.id} ;;
     relationship: one_to_one
   }
 
   join: adsets {
+    from: adsets_fb_adapter
     type: left_outer
     sql_on: ${ads.adset_id} = ${adsets.id} ;;
     relationship: many_to_one
   }
 
   join: campaigns {
+    from: campaigns_fb_adapter
     type: left_outer
     sql_on: ${ads.campaign_id} = ${campaigns.id} ;;
     relationship: many_to_one
   }
 }
 
-view: adcreative {
+view: adcreative_fb_adapter {
   extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ facebook_ads_schema._sql }}.adcreative ;;
+  sql_table_name: {{ adcreative.facebook_ads_schema._sql }}.adcreative ;;
 
   dimension: id {
     hidden: yes

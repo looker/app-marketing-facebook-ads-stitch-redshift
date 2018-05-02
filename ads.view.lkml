@@ -132,32 +132,37 @@ explore: ads_nested_joins_base {
   }
 }
 
-explore: ads {
+explore: ads_fb_adapter {
   extends: [ads_nested_joins_base]
+  view_name: ads
+  from: ads_fb_adapter
   hidden: yes
 
   join: adcreative {
+    from: adcreative_fb_adapter
     type: left_outer
     sql_on: ${ads.creative_id} = ${adcreative.id} ;;
     relationship: one_to_one
   }
 
   join: adsets {
+    from: adsets_fb_adapter
     type: left_outer
     sql_on: ${ads.adset_id} = ${adsets.id} ;;
     relationship: many_to_one
   }
 
   join: campaigns {
+    from: campaigns_fb_adapter
     type: left_outer
     sql_on: ${ads.campaign_id} = ${campaigns.id} ;;
     relationship: many_to_one
   }
 }
 
-view: ads {
+view: ads_fb_adapter {
   extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ facebook_ads_schema._sql }}.ads ;;
+  sql_table_name: {{ ads.facebook_ads_schema._sql }}.ads ;;
 
   dimension: id {
     hidden: yes

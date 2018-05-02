@@ -17,14 +17,16 @@ explore: campaigns_nested_joins_base {
   }
 }
 
-explore: campaigns {
+explore: campaigns_fb_adapter {
+  view_name: campaigns
+  from: campaigns_fb_adapter
   extends: [campaigns_nested_joins_base]
   hidden: yes
 }
 
-view: campaigns {
+view: campaigns_fb_adapter {
   extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ facebook_ads_schema._sql }}.campaigns ;;
+  sql_table_name: {{ campaigns.facebook_ads_schema._sql }}.campaigns ;;
 
   dimension: id {
     hidden: yes

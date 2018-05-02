@@ -108,11 +108,14 @@ explore: adsets_nested_joins_base {
   }
 }
 
-explore: adsets {
+explore: adsets_fb_adapter {
+  view_name: adsets
+  from: adsets_fb_adapter
   extends: [adsets_nested_joins_base]
   hidden: yes
 
   join: campaigns {
+    from: campaigns_fb_adapter
     type: left_outer
     sql_on: ${adsets.campaign_id} = ${campaigns.id} ;;
     relationship: many_to_one
@@ -120,9 +123,9 @@ explore: adsets {
 }
 
 
-view: adsets {
+view: adsets_fb_adapter {
   extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ facebook_ads_schema._sql }}.adsets ;;
+  sql_table_name: {{ adsets.facebook_ads_schema._sql }}.adsets ;;
 
   dimension: id {
     hidden: yes
