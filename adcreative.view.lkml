@@ -1,4 +1,5 @@
-include: "adcreative_adapter.view"
+include: "/app_marketing_analytics_config/facebook_ads_config.view"
+
 include: "ads.view"
 include: "adsets.view"
 
@@ -66,7 +67,8 @@ explore: adcreative {
 }
 
 view: adcreative {
-  extends: ["adcreative_adapter", "stitch_base"]
+  extends: [stitch_base, facebook_ads_config]
+  sql_table_name: {{ facebook_ads_schema._sql }}.adcreative ;;
 
   dimension: id {
     hidden: yes

@@ -1,4 +1,4 @@
-include: "campaigns_adapter.view.lkml"
+include: "/app_marketing_analytics_config/facebook_ads_config.view"
 include: "stitch_base.view.lkml"
 
 explore: campaigns_nested_joins_base {
@@ -23,7 +23,8 @@ explore: campaigns {
 }
 
 view: campaigns {
-  extends: ["campaigns_adapter", "stitch_base"]
+  extends: [stitch_base, facebook_ads_config]
+  sql_table_name: {{ facebook_ads_schema._sql }}.campaigns ;;
 
   dimension: id {
     hidden: yes

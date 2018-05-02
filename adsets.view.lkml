@@ -1,4 +1,5 @@
-include: "adsets_adapter.view"
+include: "/app_marketing_analytics_config/facebook_ads_config.view"
+
 include: "campaigns.view"
 
 explore: adsets_nested_joins_base {
@@ -120,7 +121,8 @@ explore: adsets {
 
 
 view: adsets {
-  extends: ["adsets_adapter", "stitch_base"]
+  extends: [stitch_base, facebook_ads_config]
+  sql_table_name: {{ facebook_ads_schema._sql }}.adsets ;;
 
   dimension: id {
     hidden: yes
