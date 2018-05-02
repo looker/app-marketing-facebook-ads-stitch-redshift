@@ -144,310 +144,310 @@ view: ad_impressions_fb_adapter {
     AND facebook_ads_ads_insights._sdc_sequence = max_ads_insights.seq
   ) ;;
 
-    dimension: primary_key {
-      hidden: yes
-      primary_key: yes
-      expression: concat(${_date}
-              ,"|", ${account_id}
-              ,"|", ${campaign_id}
-              ,"|", ${adset_id}
-              ,"|", ${ad_id}
-            ) ;;
-    }
-
-    dimension: call_to_action_clicks {
-      hidden: yes
-      type: number
-    }
-
-    dimension: relevance_score {
-      hidden: yes
-    }
-
-    dimension: social_spend {
-      hidden: yes
-      type: number
-    }
-  }
-
-  explore: ad_impressions_age_and_gender_fb_adapter {
-    extends: [ad_impressions_base_fb_adapter]
+  dimension: primary_key {
     hidden: yes
-    from: ad_impressions_age_and_gender_fb_adapter
+    primary_key: yes
+    expression: concat(${_date}
+      ,"|", ${account_id}
+      ,"|", ${campaign_id}
+      ,"|", ${adset_id}
+      ,"|", ${ad_id}
+    ) ;;
   }
 
-  view: ad_impressions_age_and_gender_fb_adapter {
-    extends: [insights_base, facebook_ads_config]
-    sql_table_name:
-    (
-      SELECT facebook_ads_ads_insights_age_and_gender.*
-      FROM {{ fact.facebook_ads_schema._sql }}.ads_insights_age_and_gender AS facebook_ads_ads_insights_age_and_gender
-      INNER JOIN (
-        SELECT
-            MAX(_sdc_sequence) AS seq
-            , ad_id
-            , adset_id
-            , campaign_id
-            , date_start
-            , age
-            , gender
-        FROM {{ fact.facebook_ads_schema._sql }}.ads_insights_age_and_gender
-        GROUP BY ad_id, adset_id, campaign_id, date_start, age, gender
-      ) AS max_ads_insights_age_and_gender
-      ON facebook_ads_ads_insights_age_and_gender.ad_id = max_ads_insights_age_and_gender.ad_id
-      AND facebook_ads_ads_insights_age_and_gender.adset_id = max_ads_insights_age_and_gender.adset_id
-      AND facebook_ads_ads_insights_age_and_gender.campaign_id = max_ads_insights_age_and_gender.campaign_id
-      AND facebook_ads_ads_insights_age_and_gender.date_start = max_ads_insights_age_and_gender.date_start
-      AND facebook_ads_ads_insights_age_and_gender.age = max_ads_insights_age_and_gender.age
-      AND facebook_ads_ads_insights_age_and_gender.gender = max_ads_insights_age_and_gender.gender
-      AND facebook_ads_ads_insights_age_and_gender._sdc_sequence = max_ads_insights_age_and_gender.seq
+  dimension: call_to_action_clicks {
+    hidden: yes
+    type: number
+  }
+
+  dimension: relevance_score {
+    hidden: yes
+  }
+
+  dimension: social_spend {
+    hidden: yes
+    type: number
+  }
+}
+
+explore: ad_impressions_age_and_gender_fb_adapter {
+  extends: [ad_impressions_base_fb_adapter]
+  hidden: yes
+  from: ad_impressions_age_and_gender_fb_adapter
+}
+
+view: ad_impressions_age_and_gender_fb_adapter {
+  extends: [insights_base, facebook_ads_config]
+  sql_table_name:
+  (
+  SELECT facebook_ads_ads_insights_age_and_gender.*
+  FROM {{ fact.facebook_ads_schema._sql }}.ads_insights_age_and_gender AS facebook_ads_ads_insights_age_and_gender
+  INNER JOIN (
+  SELECT
+      MAX(_sdc_sequence) AS seq
+      , ad_id
+      , adset_id
+      , campaign_id
+      , date_start
+      , age
+      , gender
+  FROM {{ fact.facebook_ads_schema._sql }}.ads_insights_age_and_gender
+  GROUP BY ad_id, adset_id, campaign_id, date_start, age, gender
+  ) AS max_ads_insights_age_and_gender
+  ON facebook_ads_ads_insights_age_and_gender.ad_id = max_ads_insights_age_and_gender.ad_id
+  AND facebook_ads_ads_insights_age_and_gender.adset_id = max_ads_insights_age_and_gender.adset_id
+  AND facebook_ads_ads_insights_age_and_gender.campaign_id = max_ads_insights_age_and_gender.campaign_id
+  AND facebook_ads_ads_insights_age_and_gender.date_start = max_ads_insights_age_and_gender.date_start
+  AND facebook_ads_ads_insights_age_and_gender.age = max_ads_insights_age_and_gender.age
+  AND facebook_ads_ads_insights_age_and_gender.gender = max_ads_insights_age_and_gender.gender
+  AND facebook_ads_ads_insights_age_and_gender._sdc_sequence = max_ads_insights_age_and_gender.seq
+  ) ;;
+
+  dimension: primary_key {
+    hidden: yes
+    primary_key: yes
+    expression: concat(${_date}
+      ,"|", ${account_id}
+      ,"|", ${campaign_id}
+      ,"|", ${adset_id}
+      ,"|", ${ad_id}
+      ,"|", ${age}
+      ,"|", ${gender}
     ) ;;
+  }
 
-      dimension: primary_key {
-        hidden: yes
-        primary_key: yes
-        expression: concat(${_date}
-                ,"|", ${account_id}
-                ,"|", ${campaign_id}
-                ,"|", ${adset_id}
-                ,"|", ${ad_id}
-                ,"|", ${age}
-                ,"|", ${gender}
-              ) ;;
-      }
+  dimension: age {
+    type: string
+  }
 
-      dimension: age {
-        type: string
-      }
+  dimension: gender_raw {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.gender ;;
+  }
 
-      dimension: gender_raw {
-        hidden: yes
-        type: string
-        sql: ${TABLE}.gender ;;
+  dimension: gender {
+    type: string
+    case: {
+      when: {
+        sql: ${gender_raw} = 'male' ;;
+        label: "Male"
       }
-
-      dimension: gender {
-        type: string
-        case: {
-          when: {
-            sql: ${gender_raw} = 'male' ;;
-            label: "Male"
-          }
-          when: {
-            sql: ${gender_raw} = 'female' ;;
-            label: "Female"
-          }
-          when: {
-            sql: ${gender_raw} = 'unknown';;
-            label: "Unknown"
-          }
-          else: "Other"
-        }
+      when: {
+        sql: ${gender_raw} = 'female' ;;
+        label: "Female"
       }
+      when: {
+        sql: ${gender_raw} = 'unknown';;
+        label: "Unknown"
+      }
+      else: "Other"
     }
+  }
+}
 
-    explore: ad_impressions_country_fb_adapter {
-      extends: [ad_impressions_base_fb_adapter]
-      hidden: yes
-      from: ad_impressions_country_fb_adapter
+explore: ad_impressions_country_fb_adapter {
+  extends: [ad_impressions_base_fb_adapter]
+  hidden: yes
+  from: ad_impressions_country_fb_adapter
+}
+
+view: ad_impressions_country_fb_adapter {
+  extends: [insights_base, facebook_ads_config]
+  sql_table_name:
+  (
+  SELECT facebook_ads_ads_insights_country.*
+  FROM {{ fact.facebook_ads_schema._sql }}.ads_insights_country AS facebook_ads_ads_insights_country
+  INNER JOIN (
+    SELECT
+        MAX(_sdc_sequence) AS seq
+        , ad_id
+        , adset_id
+        , campaign_id
+        , date_start
+        , country
+    FROM {{ fact.facebook_ads_schema._sql }}.ads_insights_country
+    GROUP BY ad_id, adset_id, campaign_id, date_start, country
+  ) AS max_ads_insights_country
+  ON facebook_ads_ads_insights_country.ad_id = max_ads_insights_country.ad_id
+  AND facebook_ads_ads_insights_country.adset_id = max_ads_insights_country.adset_id
+  AND facebook_ads_ads_insights_country.campaign_id = max_ads_insights_country.campaign_id
+  AND facebook_ads_ads_insights_country.date_start = max_ads_insights_country.date_start
+  AND facebook_ads_ads_insights_country.country = max_ads_insights_country.country
+  AND facebook_ads_ads_insights_country._sdc_sequence = max_ads_insights_country.seq
+  ) ;;
+
+  dimension: primary_key {
+    hidden: yes
+    primary_key: yes
+    expression: concat(${_date}
+      ,"|", ${account_id}
+      ,"|", ${campaign_id}
+      ,"|", ${adset_id}
+      ,"|", ${ad_id}
+      ,"|", ${country}
+    ) ;;
+  }
+
+  dimension: country {
+    type: string
+    map_layer_name: countries
+  }
+}
+
+explore: ad_impressions_platform_and_device_fb_adapter {
+  extends: [ad_impressions_base_fb_adapter]
+  hidden: yes
+  from: ad_impressions_platform_and_device_fb_adapter
+}
+
+view: ad_impressions_platform_and_device_fb_adapter {
+  extends: [insights_base, facebook_ads_config]
+  sql_table_name:
+  (
+    SELECT facebook_ads_ads_insights_platform_and_device.*
+    FROM {{ fact.facebook_ads_schema._sql }}.ads_insights_platform_and_device AS facebook_ads_ads_insights_platform_and_device
+    INNER JOIN (
+      SELECT
+          MAX(_sdc_sequence) AS seq
+          , ad_id
+          , adset_id
+          , campaign_id
+          , date_start
+          , publisher_platform
+          , platform_position
+          , impression_device
+      FROM {{ fact.facebook_ads_schema._sql }}.ads_insights_platform_and_device
+      GROUP BY ad_id, adset_id, campaign_id, date_start, publisher_platform, platform_position, impression_device
+    ) AS max_ads_insights_platform_and_device
+    ON facebook_ads_ads_insights_platform_and_device.ad_id = max_ads_insights_platform_and_device.ad_id
+    AND facebook_ads_ads_insights_platform_and_device.adset_id = max_ads_insights_platform_and_device.adset_id
+    AND facebook_ads_ads_insights_platform_and_device.campaign_id = max_ads_insights_platform_and_device.campaign_id
+    AND facebook_ads_ads_insights_platform_and_device.date_start = max_ads_insights_platform_and_device.date_start
+    AND facebook_ads_ads_insights_platform_and_device.publisher_platform = max_ads_insights_platform_and_device.publisher_platform
+    AND facebook_ads_ads_insights_platform_and_device.platform_position = max_ads_insights_platform_and_device.platform_position
+    AND facebook_ads_ads_insights_platform_and_device.impression_device = max_ads_insights_platform_and_device.impression_device
+    AND facebook_ads_ads_insights_platform_and_device._sdc_sequence = max_ads_insights_platform_and_device.seq
+  ) ;;
+
+  dimension: primary_key {
+    hidden: yes
+    primary_key: yes
+    expression: concat(${_date}
+      ,"|", ${account_id}
+      ,"|", ${campaign_id}
+      ,"|", ${adset_id}
+      ,"|", ${ad_id}
+      ,"|", ${impression_device}
+      ,"|", ${platform_position}
+      ,"|", ${publisher_platform}
+    ) ;;
+  }
+
+  dimension: impression_device {
+    hidden: yes
+    type: string
+  }
+
+  dimension: device_type {
+    type: string
+    case: {
+      when: {
+        sql: ${impression_device} = 'desktop' ;;
+        label: "Desktop"
+      }
+      when: {
+        sql: ${impression_device} = 'iphone' OR ${impression_device} = 'android_smartphone' ;;
+        label: "Mobile"
+      }
+      when: {
+        sql: ${impression_device} = 'ipad'  OR ${impression_device} = 'android_tablet' ;;
+        label: "Tablet"
+      }
+      else: "Other"
     }
+  }
 
-    view: ad_impressions_country_fb_adapter {
-      extends: [insights_base, facebook_ads_config]
-      sql_table_name:
-        (
-        SELECT facebook_ads_ads_insights_country.*
-        FROM {{ fact.facebook_ads_schema._sql }}.ads_insights_country AS facebook_ads_ads_insights_country
-        INNER JOIN (
-          SELECT
-              MAX(_sdc_sequence) AS seq
-              , ad_id
-              , adset_id
-              , campaign_id
-              , date_start
-              , country
-          FROM {{ fact.facebook_ads_schema._sql }}.ads_insights_country
-          GROUP BY ad_id, adset_id, campaign_id, date_start, country
-        ) AS max_ads_insights_country
-        ON facebook_ads_ads_insights_country.ad_id = max_ads_insights_country.ad_id
-        AND facebook_ads_ads_insights_country.adset_id = max_ads_insights_country.adset_id
-        AND facebook_ads_ads_insights_country.campaign_id = max_ads_insights_country.campaign_id
-        AND facebook_ads_ads_insights_country.date_start = max_ads_insights_country.date_start
-        AND facebook_ads_ads_insights_country.country = max_ads_insights_country.country
-        AND facebook_ads_ads_insights_country._sdc_sequence = max_ads_insights_country.seq
-      ) ;;
 
-        dimension: primary_key {
-          hidden: yes
-          primary_key: yes
-          expression: concat(${_date}
-                  ,"|", ${account_id}
-                  ,"|", ${campaign_id}
-                  ,"|", ${adset_id}
-                  ,"|", ${ad_id}
-                  ,"|", ${country}
-                ) ;;
-        }
+  dimension: platform_position_raw {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.platform_position ;;
+  }
 
-        dimension: country {
-          type: string
-          map_layer_name: countries
-        }
+  dimension: platform_position {
+    type: string
+    case: {
+      when: {
+        sql: ${platform_position_raw} = 'feed' AND ${publisher_platform_raw} = 'instagram' ;;
+        label: "Feed"
       }
-
-      explore: ad_impressions_platform_and_device_fb_adapter {
-        extends: [ad_impressions_base_fb_adapter]
-        hidden: yes
-        from: ad_impressions_platform_and_device_fb_adapter
+      when: {
+        sql: ${platform_position_raw} = 'feed' ;;
+        label: "News Feed"
       }
+      when: {
+        sql: ${platform_position_raw} = 'an_classic' ;;
+        label: "Classic"
+      }
+      when: {
+        sql: ${platform_position_raw} = 'all_placements' ;;
+        label: "All"
+      }
+      when: {
+        sql: ${platform_position_raw} = 'instant_article' ;;
+        label: "Instant Article"
+      }
+      when: {
+        sql: ${platform_position_raw} = 'right_hand_column' ;;
+        label: "Right Column"
+      }
+      when: {
+        sql: ${platform_position_raw} = 'rewarded_video' ;;
+        label: "Rewarded Video"
+      }
+      when: {
+        sql: ${platform_position_raw} = 'suggested_video' ;;
+        label: "Suggested Video"
+      }
+      when: {
+        sql: ${platform_position_raw} = 'instream_video' ;;
+        label: "InStream Video"
+      }
+      when: {
+        sql: ${platform_position_raw} = 'messenger_inbox' ;;
+        label: "Messenger Home"
+      }
+      else: "Other"
+    }
+  }
 
-      view: ad_impressions_platform_and_device_fb_adapter {
-        extends: [insights_base, facebook_ads_config]
-        sql_table_name:
-        (
-          SELECT facebook_ads_ads_insights_platform_and_device.*
-          FROM {{ fact.facebook_ads_schema._sql }}.ads_insights_platform_and_device AS facebook_ads_ads_insights_platform_and_device
-          INNER JOIN (
-            SELECT
-                MAX(_sdc_sequence) AS seq
-                , ad_id
-                , adset_id
-                , campaign_id
-                , date_start
-                , publisher_platform
-                , platform_position
-                , impression_device
-            FROM {{ fact.facebook_ads_schema._sql }}.ads_insights_platform_and_device
-            GROUP BY ad_id, adset_id, campaign_id, date_start, publisher_platform, platform_position, impression_device
-          ) AS max_ads_insights_platform_and_device
-          ON facebook_ads_ads_insights_platform_and_device.ad_id = max_ads_insights_platform_and_device.ad_id
-          AND facebook_ads_ads_insights_platform_and_device.adset_id = max_ads_insights_platform_and_device.adset_id
-          AND facebook_ads_ads_insights_platform_and_device.campaign_id = max_ads_insights_platform_and_device.campaign_id
-          AND facebook_ads_ads_insights_platform_and_device.date_start = max_ads_insights_platform_and_device.date_start
-          AND facebook_ads_ads_insights_platform_and_device.publisher_platform = max_ads_insights_platform_and_device.publisher_platform
-          AND facebook_ads_ads_insights_platform_and_device.platform_position = max_ads_insights_platform_and_device.platform_position
-          AND facebook_ads_ads_insights_platform_and_device.impression_device = max_ads_insights_platform_and_device.impression_device
-          AND facebook_ads_ads_insights_platform_and_device._sdc_sequence = max_ads_insights_platform_and_device.seq
-        ) ;;
+  dimension: publisher_platform_raw {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.publisher_platform ;;
+  }
 
-          dimension: primary_key {
-            hidden: yes
-            primary_key: yes
-            expression: concat(${_date}
-                    ,"|", ${account_id}
-                    ,"|", ${campaign_id}
-                    ,"|", ${adset_id}
-                    ,"|", ${ad_id}
-                    ,"|", ${impression_device}
-                    ,"|", ${platform_position}
-                    ,"|", ${publisher_platform}
-                  ) ;;
-          }
-
-          dimension: impression_device {
-            hidden: yes
-            type: string
-          }
-
-          dimension: device_type {
-            type: string
-            case: {
-              when: {
-                sql: ${impression_device} = 'desktop' ;;
-                label: "Desktop"
-              }
-              when: {
-                sql: ${impression_device} = 'iphone' OR ${impression_device} = 'android_smartphone' ;;
-                label: "Mobile"
-              }
-              when: {
-                sql: ${impression_device} = 'ipad'  OR ${impression_device} = 'android_tablet' ;;
-                label: "Tablet"
-              }
-              else: "Other"
-            }
-          }
-
-
-          dimension: platform_position_raw {
-            hidden: yes
-            type: string
-            sql: ${TABLE}.platform_position ;;
-          }
-
-          dimension: platform_position {
-            type: string
-            case: {
-              when: {
-                sql: ${platform_position_raw} = 'feed' AND ${publisher_platform_raw} = 'instagram' ;;
-                label: "Feed"
-              }
-              when: {
-                sql: ${platform_position_raw} = 'feed' ;;
-                label: "News Feed"
-              }
-              when: {
-                sql: ${platform_position_raw} = 'an_classic' ;;
-                label: "Classic"
-              }
-              when: {
-                sql: ${platform_position_raw} = 'all_placements' ;;
-                label: "All"
-              }
-              when: {
-                sql: ${platform_position_raw} = 'instant_article' ;;
-                label: "Instant Article"
-              }
-              when: {
-                sql: ${platform_position_raw} = 'right_hand_column' ;;
-                label: "Right Column"
-              }
-              when: {
-                sql: ${platform_position_raw} = 'rewarded_video' ;;
-                label: "Rewarded Video"
-              }
-              when: {
-                sql: ${platform_position_raw} = 'suggested_video' ;;
-                label: "Suggested Video"
-              }
-              when: {
-                sql: ${platform_position_raw} = 'instream_video' ;;
-                label: "InStream Video"
-              }
-              when: {
-                sql: ${platform_position_raw} = 'messenger_inbox' ;;
-                label: "Messenger Home"
-              }
-              else: "Other"
-            }
-          }
-
-          dimension: publisher_platform_raw {
-            hidden: yes
-            type: string
-            sql: ${TABLE}.publisher_platform ;;
-          }
-
-          dimension: publisher_platform {
-            type: string
-            case: {
-              when: {
-                sql: ${publisher_platform_raw} = 'facebook' ;;
-                label: "Facebook"
-              }
-              when: {
-                sql: ${publisher_platform_raw} = 'instagram' ;;
-                label: "Instagram"
-              }
-              when: {
-                sql: ${publisher_platform_raw} = 'audience_network';;
-                label: "Audience Network"
-              }
-              when: {
-                sql: ${publisher_platform_raw} = 'messenger';;
-                label: "Messenger"
-              }
-              else: "Other"
-            }
-          }
-        }
+  dimension: publisher_platform {
+    type: string
+    case: {
+      when: {
+        sql: ${publisher_platform_raw} = 'facebook' ;;
+        label: "Facebook"
+      }
+      when: {
+        sql: ${publisher_platform_raw} = 'instagram' ;;
+        label: "Instagram"
+      }
+      when: {
+        sql: ${publisher_platform_raw} = 'audience_network';;
+        label: "Audience Network"
+      }
+      when: {
+        sql: ${publisher_platform_raw} = 'messenger';;
+        label: "Messenger"
+      }
+      else: "Other"
+    }
+  }
+}
