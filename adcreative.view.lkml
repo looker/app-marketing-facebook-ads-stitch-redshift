@@ -1,7 +1,7 @@
 include: "/app_marketing_analytics_config/facebook_ads_config.view"
 
-include: "ads.view"
-include: "adsets.view"
+include: "ad.view"
+include: "adset.view"
 
 explore: adcreative_nested_joins_base {
   extension: required
@@ -49,24 +49,24 @@ explore: adcreative_fb_adapter {
   extends: [adcreative_nested_joins_base]
   hidden: yes
 
-  join: ads {
-    from: ads_fb_adapter
+  join: ad {
+    from: ad_fb_adapter
     type: left_outer
-    sql_on: ${ads.creative_id} = ${adcreative.id} ;;
+    sql_on: ${ad.creative_id} = ${adcreative.id} ;;
     relationship: one_to_one
   }
 
-  join: adsets {
-    from: adsets_fb_adapter
+  join: adset {
+    from: adset_fb_adapter
     type: left_outer
-    sql_on: ${ads.adset_id} = ${adsets.id} ;;
+    sql_on: ${ad.adset_id} = ${adset.id} ;;
     relationship: many_to_one
   }
 
-  join: campaigns {
-    from: campaigns_fb_adapter
+  join: campaign {
+    from: campaign_fb_adapter
     type: left_outer
-    sql_on: ${ads.campaign_id} = ${campaigns.id} ;;
+    sql_on: ${ad.campaign_id} = ${campaign.id} ;;
     relationship: many_to_one
   }
 }
