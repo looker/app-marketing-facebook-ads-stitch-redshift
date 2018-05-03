@@ -148,7 +148,7 @@ view: adcreative_fb_adapter {
 
   dimension: status_active {
     type: yesno
-    expression: ${status} = "ACTIVE" ;;
+    sql: ${status} = "ACTIVE" ;;
   }
 
   dimension: thumbnail_url {

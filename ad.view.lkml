@@ -190,18 +190,15 @@ view: ad_fb_adapter {
 
   dimension: bid_type {
     type: string
-    sql: ${TABLE}.bid_type ;;
   }
 
   dimension: campaign_id {
     type: string
-    sql: ${TABLE}.campaign_id ;;
     hidden: yes
   }
 
   dimension: conversion_specs {
     hidden: yes
-    sql: ${TABLE}.conversion_specs ;;
   }
 
   dimension_group: created {
@@ -220,24 +217,20 @@ view: ad_fb_adapter {
 
   dimension: creative_id {
     type: string
-    sql: ${TABLE}.creative.id ;;
     hidden: yes
   }
 
   dimension: effective_status {
     type: string
-    sql: ${TABLE}.effective_status ;;
   }
 
   dimension: last_updated_by_app_id {
     type: string
-    sql: ${TABLE}.last_updated_by_app_id ;;
     hidden: yes
   }
 
   dimension: name {
     type: string
-    sql: ${TABLE}.name ;;
   }
 
   dimension: recommendations {
@@ -247,13 +240,11 @@ view: ad_fb_adapter {
 
   dimension: source_ad_id {
     type: string
-    sql: ${TABLE}.source_ad_id ;;
     hidden: yes
   }
 
   dimension: status {
     type: string
-    sql: ${TABLE}.status ;;
   }
 
   dimension: status_active {
@@ -263,12 +254,10 @@ view: ad_fb_adapter {
 
   dimension: targeting {
     hidden: yes
-    sql: ${TABLE}.targeting ;;
   }
 
   dimension: tracking_specs {
     hidden: yes
-    sql: ${TABLE}.tracking_specs ;;
   }
 
   dimension_group: updated {

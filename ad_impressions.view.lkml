@@ -147,7 +147,7 @@ view: ad_impressions_fb_adapter {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    expression: concat(${_date}
+    sql: concat(CAST(${_date} AS STRING)
       ,"|", ${account_id}
       ,"|", ${campaign_id}
       ,"|", ${adset_id}
@@ -206,7 +206,7 @@ view: ad_impressions_age_and_gender_fb_adapter {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    expression: concat(${_date}
+    sql: concat(CAST(${_date} AS STRING)
       ,"|", ${account_id}
       ,"|", ${campaign_id}
       ,"|", ${adset_id}
@@ -280,7 +280,7 @@ view: ad_impressions_country_fb_adapter {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    expression: concat(${_date}
+    sql: concat(CAST(${_date} AS STRING)
       ,"|", ${account_id}
       ,"|", ${campaign_id}
       ,"|", ${adset_id}
@@ -333,7 +333,7 @@ view: ad_impressions_platform_and_device_fb_adapter {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    expression: concat(${_date}
+    sql: concat(CAST(${_date} AS STRING)
       ,"|", ${account_id}
       ,"|", ${campaign_id}
       ,"|", ${adset_id}
