@@ -4,7 +4,7 @@ LookML files for a Facebook block compatible with [Stitch's Facebook Ads Insight
 
 To use this block, you will need to:
 
-Create a `app_marketing_analytics_config` project that is assumed by the manifest.lkml. This configuration requires a facebook_ads.view.lkml file
+Create a `app_marketing_analytics_config` project that is assumed by the manifest.lkml. This configuration requires a facebook_ads_config.view.lkml file
 
 For example:
 
