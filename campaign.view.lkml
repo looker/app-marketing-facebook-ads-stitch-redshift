@@ -60,6 +60,11 @@ view: campaign_fb_adapter {
     type: string
   }
 
+  dimension: status_active {
+    type: yesno
+    sql: ${effective_status} = "ACTIVE" ;;
+  }
+
   dimension: name {
     type: string
   }

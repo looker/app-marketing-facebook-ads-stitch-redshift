@@ -174,6 +174,11 @@ view: adset_fb_adapter {
     type: string
   }
 
+  dimension: status_active {
+    type: yesno
+    sql: ${effective_status} = "ACTIVE" ;;
+  }
+
   dimension_group: end {
     hidden: yes
     type: time
