@@ -430,6 +430,7 @@ view: ad_impressions_platform_and_device_fb_adapter {
 
   dimension: publisher_platform {
     type: string
+    label: "Platform"
     case: {
       when: {
         sql: ${publisher_platform_raw} = 'facebook' ;;
