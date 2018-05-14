@@ -1,4 +1,5 @@
 explore: account_fb_adapter {
+  persist_with: facebook_ads_etl_datagroup
   hidden: yes
 }
 view: account_fb_adapter {

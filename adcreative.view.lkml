@@ -44,6 +44,7 @@ explore: adcreative_nested_joins_base {
 }
 
 explore: adcreative_fb_adapter {
+  persist_with: facebook_ads_etl_datagroup
   view_name: adcreative
   from: adcreative_fb_adapter
   extends: [adcreative_nested_joins_base]

@@ -110,6 +110,7 @@ explore: ad_impressions_base_fb_adapter {
 }
 
 explore: ad_impressions_fb_adapter {
+  persist_with: facebook_ads_etl_datagroup
   extends: [ad_impressions_base_fb_adapter]
   hidden: yes
   from: ad_impressions_fb_adapter
@@ -171,6 +172,7 @@ view: ad_impressions_fb_adapter {
 }
 
 explore: ad_impressions_age_and_gender_fb_adapter {
+  persist_with: facebook_ads_etl_datagroup
   extends: [ad_impressions_base_fb_adapter]
   hidden: yes
   from: ad_impressions_age_and_gender_fb_adapter
@@ -247,6 +249,7 @@ view: ad_impressions_age_and_gender_fb_adapter {
 }
 
 explore: ad_impressions_country_fb_adapter {
+  persist_with: facebook_ads_etl_datagroup
   extends: [ad_impressions_base_fb_adapter]
   hidden: yes
   from: ad_impressions_country_fb_adapter
@@ -296,6 +299,7 @@ view: ad_impressions_country_fb_adapter {
 }
 
 explore: ad_impressions_platform_and_device_fb_adapter {
+  persist_with: facebook_ads_etl_datagroup
   extends: [ad_impressions_base_fb_adapter]
   hidden: yes
   from: ad_impressions_platform_and_device_fb_adapter

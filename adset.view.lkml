@@ -109,6 +109,7 @@ explore: adset_nested_joins_base {
 }
 
 explore: adset_fb_adapter {
+  persist_with: facebook_ads_etl_datagroup
   view_name: adset
   from: adset_fb_adapter
   extends: [adset_nested_joins_base]

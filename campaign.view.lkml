@@ -20,6 +20,7 @@ explore: campaign_nested_joins_base {
 }
 
 explore: campaign_fb_adapter {
+  persist_with: facebook_ads_etl_datagroup
   view_name: campaign
   from: campaign_fb_adapter
   extends: [campaign_nested_joins_base]
