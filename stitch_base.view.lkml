@@ -6,11 +6,6 @@ view: stitch_base {
     type: date_time
   }
 
-  dimension: _sdc_extracted {
-    hidden: yes
-    type: date_time
-  }
-
   dimension: _sdc_received {
     hidden: yes
     type: date_time
