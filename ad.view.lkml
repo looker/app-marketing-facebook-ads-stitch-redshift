@@ -5,9 +5,38 @@ include: "adset.view"
 explore: ad_nested_joins_base {
   extension: required
 
-  join: ad__conversion_specs {
+  join: ad__conversion_specs__action_type {
     view_label: "Ad: Conversion Specs"
-    sql: LEFT JOIN UNNEST([${ad.conversion_specs}]) as ad__conversion_specs ;;
+    from: ad__conversion_specs__action_type
+    sql_on: ${ad.id} = ${ad__conversion_specs__action_type._sdc_source_key_id} ;;
+    relationship: one_to_one
+  }
+
+  join: ad__conversion_specs__conversion_id {
+    view_label: "Ad: Conversion Specs"
+    from: ad__conversion_specs__conversion_id
+    sql_on: ${ad.id} = ${ad__conversion_specs__conversion_id._sdc_source_key_id} ;;
+    relationship: one_to_one
+  }
+
+  join: ad__conversion_specs__page {
+    view_label: "Ad: Conversion Specs"
+    from: ad__conversion_specs__page
+    sql_on: ${ad.id} = ${ad__conversion_specs__page._sdc_source_key_id} ;;
+    relationship: one_to_one
+  }
+
+  join: ad__conversion_specs__post {
+    view_label: "Ad: Conversion Specs"
+    from: ad__conversion_specs__post
+    sql_on: ${ad.id} = ${ad__conversion_specs__post._sdc_source_key_id} ;;
+    relationship: one_to_one
+  }
+
+  join: ad__conversion_specs__post_wall {
+    view_label: "Ad: Conversion Specs"
+    from: ad__conversion_specs__post_wall
+    sql_on: ${ad.id} = ${ad__conversion_specs__post_wall._sdc_source_key_id} ;;
     relationship: one_to_one
   }
 
@@ -137,7 +166,7 @@ explore: ad_fb_adapter {
   extends: [ad_nested_joins_base]
   view_name: ad
   from: ad_fb_adapter
-  hidden: yes
+  # hidden: yes
 
   join: adcreative {
     from: adcreative_fb_adapter
@@ -163,7 +192,7 @@ explore: ad_fb_adapter {
 
 view: ad_fb_adapter {
   extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ ad.facebook_ads_schema._sql }}.ads ;;
+  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }} ;;
 
   dimension: id {
     hidden: yes
@@ -276,41 +305,88 @@ view: ad_fb_adapter {
   }
 }
 
-view: ad__conversion_specs {
-  dimension: action_type {
+view: ad__conversion_specs__action_type {
+  extends: [stitch_base, facebook_ads_config]
+  sql_table_name: {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__action.type" ;;
+
+  dimension: _sdc_source_key_id {
     hidden: yes
     type: string
-    sql: ${TABLE}.action_type ;;
+    sql: ${TABLE}._sdc_source_key_id ;;
+  }
+
+  dimension: action_type {
+    hidden: no
+    type: string
+    sql: ${TABLE}.value ;;
+  }
+}
+
+view: ad__conversion_specs__conversion_id {
+  extends: [stitch_base, facebook_ads_config]
+  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__conversion_id ;;
+
+  dimension: _sdc_source_key_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_id ;;
   }
 
   dimension: conversion_id {
-    hidden: yes
+    hidden: no
     type: string
-    sql: ${TABLE}.conversion_id ;;
+    sql: ${TABLE}.value ;;
   }
+}
 
-  dimension: leadgen {
+view: ad__conversion_specs__page {
+  extends: [stitch_base, facebook_ads_config]
+  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__page ;;
+
+  dimension: _sdc_source_key_id {
     hidden: yes
     type: string
-    sql: ${TABLE}.leadgen ;;
+    sql: ${TABLE}._sdc_source_key_id ;;
   }
 
   dimension: page {
+    hidden: no
+    type: string
+    sql: ${TABLE}.value ;;
+  }
+}
+
+view: ad__conversion_specs__post {
+  extends: [stitch_base, facebook_ads_config]
+  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__post ;;
+
+  dimension: _sdc_source_key_id {
     hidden: yes
     type: string
-    sql: ${TABLE}.page ;;
+    sql: ${TABLE}._sdc_source_key_id ;;
   }
 
   dimension: post {
+    hidden: no
+    type: string
+    sql: ${TABLE}.value ;;
+  }
+}
+
+view: ad__conversion_specs__post_wall {
+  extends: [stitch_base, facebook_ads_config]
+  sql_table_name: {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__post.wall" ;;
+
+  dimension: _sdc_source_key_id {
     hidden: yes
     type: string
-    sql: ${TABLE}.post ;;
+    sql: ${TABLE}._sdc_source_key_id ;;
   }
 
   dimension: post_wall {
-    hidden: yes
+    hidden: no
     type: string
-    sql: ${TABLE}.post_wall ;;
+    sql: ${TABLE}.value ;;
   }
 }
 

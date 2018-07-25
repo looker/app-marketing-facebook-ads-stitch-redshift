@@ -1,11 +1,12 @@
-connection: "looker_app"
+include: "/app_marketing_analytics_config/config.model"
+
 label: "Facebook Ads"
 
 # include all the views
 include: "*.view"
 
 # include all the dashboards
-include: "facebook_*.dashboard"
+# include: "facebook_*.dashboard"
 
 # datagroup: facebook_etl_datagroup {
 #   sql_trigger: SELECT MAX(_sdc_extracted_at) FROM facebook_ads.ads_insights ;;
