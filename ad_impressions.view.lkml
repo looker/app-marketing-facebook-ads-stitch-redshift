@@ -192,12 +192,11 @@ view: ad_impressions_fb_adapter {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    sql: concat(CAST(${_date} AS VARCHAR)
-      ,'|'::text, ${account_id}
-      ,'|'::text, ${campaign_id}
-      ,'|'::text, ${adset_id}
-      ,'|'::text, ${ad_id}
-    ) ;;
+    sql: CAST(${_date} AS VARCHAR)
+      || '|'::text || ${account_id}
+      || '|'::text || ${campaign_id}
+      || '|'::text || ${adset_id}
+      || '|'::text || ${ad_id} ;;
   }
 
   dimension: call_to_action_clicks {
@@ -252,14 +251,13 @@ view: ad_impressions_age_and_gender_fb_adapter {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    sql: concat(CAST(${_date} AS VARCHAR)
-      ,'|'::text, ${account_id}
-      ,'|'::text, ${campaign_id}
-      ,'|'::text, ${adset_id}
-      ,'|'::text, ${ad_id}
-      ,'|'::text, ${age}
-      ,'|'::text, ${gender}
-    ) ;;
+    sql: CAST(${_date} AS VARCHAR)
+      || '|'::text || ${account_id}
+      || '|'::text || ${campaign_id}
+      || '|'::text || ${adset_id}
+      || '|'::text || ${ad_id}
+      || '|'::text || ${age}
+      || '|'::text || ${gender};;
   }
 
   dimension: age {
@@ -327,13 +325,12 @@ view: ad_impressions_geo_fb_adapter {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    sql: concat(CAST(${_date} as VARCHAR)
-      ,'|'::texttex::t, ${account_id}
-      ,'|'::text, ${campaign_id}
-      ,'|'::text, ${adset_id}
-      ,'|'::text, ${ad_id}
-      ,'|'::text, ${country}
-    ) ;;
+    sql: CAST(${_date} as VARCHAR)
+      || '|'::text || ${account_id}
+      || '|'::text || ${campaign_id}
+      || '|'::text || ${adset_id}
+      || '|'::text || ${ad_id}
+      || '|'::text || ${country} ;;
   }
 
   dimension: country {
@@ -379,14 +376,13 @@ view: ad_impressions_platform_and_device_fb_adapter {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    sql: concat(CAST(${_date} AS VARCHAR)
-      ,'|'::text, ${account_id}
-      ,'|'::text, ${campaign_id}
-      ,'|'::text, ${adset_id}
-      ,'|'::text, ${ad_id}
-      ,'|'::text, ${impression_device}
-      ,'|'::text, ${platform_position}
-    ) ;;
+    sql: CAST(${_date} AS VARCHAR)
+      || '|'::text || ${account_id}
+      || '|'::text || ${campaign_id}
+      || '|'::text || ${adset_id}
+      || '|'::text || ${ad_id}
+      || '|'::text || ${impression_device}
+      || '|'::text || ${platform_position} ;;
   }
 
   dimension: impression_device {
