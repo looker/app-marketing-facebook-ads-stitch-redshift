@@ -193,10 +193,10 @@ view: ad_impressions_fb_adapter {
     hidden: yes
     primary_key: yes
     sql: concat(CAST(${_date} AS CHAR)
-      ,"|", ${account_id}
-      ,"|", ${campaign_id}
-      ,"|", ${adset_id}
-      ,"|", ${ad_id}
+      ,'|', ${account_id}
+      ,'|', ${campaign_id}
+      ,'|', ${adset_id}
+      ,'|', ${ad_id}
     ) ;;
   }
 
@@ -253,12 +253,12 @@ view: ad_impressions_age_and_gender_fb_adapter {
     hidden: yes
     primary_key: yes
     sql: concat(CAST(${_date} AS CHAR)
-      ,"|", ${account_id}
-      ,"|", ${campaign_id}
-      ,"|", ${adset_id}
-      ,"|", ${ad_id}
-      ,"|", ${age}
-      ,"|", ${gender}
+      ,'|', ${account_id}
+      ,'|', ${campaign_id}
+      ,'|', ${adset_id}
+      ,'|', ${ad_id}
+      ,'|', ${age}
+      ,'|', ${gender}
     ) ;;
   }
 
@@ -328,11 +328,11 @@ view: ad_impressions_geo_fb_adapter {
     hidden: yes
     primary_key: yes
     sql: concat(CAST(${_date} as CHAR)
-      ,"|", ${account_id}
-      ,"|", ${campaign_id}
-      ,"|", ${adset_id}
-      ,"|", ${ad_id}
-      ,"|", ${country}
+      ,'|', ${account_id}
+      ,'|', ${campaign_id}
+      ,'|', ${adset_id}
+      ,'|', ${ad_id}
+      ,'|', ${country}
     ) ;;
   }
 
@@ -380,12 +380,12 @@ view: ad_impressions_platform_and_device_fb_adapter {
     hidden: yes
     primary_key: yes
     sql: concat(CAST(${_date} AS CHAR)
-      ,"|", ${account_id}
-      ,"|", ${campaign_id}
-      ,"|", ${adset_id}
-      ,"|", ${ad_id}
-      ,"|", ${impression_device}
-      ,"|", ${platform_position}
+      ,'|', ${account_id}
+      ,'|', ${campaign_id}
+      ,'|', ${adset_id}
+      ,'|', ${ad_id}
+      ,'|', ${impression_device}
+      ,'|', ${platform_position}
     ) ;;
   }
 
