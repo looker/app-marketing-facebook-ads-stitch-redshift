@@ -1,5 +1,7 @@
 include: "ad_transformations_base.view"
 include: "stitch_base.view.lkml"
+include: "/app_marketing_analytics_config/facebook_ads_config.view"
+
 
 view: insights_base {
   extension: required
@@ -348,67 +350,529 @@ view: ads_insights__actions_base {
 }
 
 view: ads_insights__video_30_sec_watched_actions {
-  extends: [ads_insights__actions_base]
+  extends: [stitch_base, facebook_ads_config, ads_insights__actions_base]
+  derived_table: {
+    sql:
+      SELECT
+        video_10_sec_watched_actions.*
+      FROM
+      {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__video_10_sec_watched_actions" as video_10_sec_watched_actions
+      ;;
+  }
+
+  dimension: ad_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_ad_id ;;
+  }
+
+  dimension: adset_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_adset_id ;;
+  }
+
+  dimension: campaign_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_campaign_id ;;
+  }
+
+  dimension_group: date_start {
+    hidden: yes
+    type: time
+    label: "Start"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    allow_fill: no
+    sql: ${TABLE}._sdc_source_key_date_start ;;
+  }
+
 }
 
 view: ads_insights__video_p75_watched_actions {
-  extends: [ads_insights__actions_base]
+  extends: [stitch_base, facebook_ads_config, facebook_ads_config]
+  derived_table: {
+    sql:
+      SELECT
+        video_p75_watched_actions.*
+      FROM
+      {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__video_p75_watched_actions" as video_p75_watched_actions
+      ;;
+  }
+
+  dimension: ad_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_ad_id ;;
+  }
+
+  dimension: adset_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_adset_id ;;
+  }
+
+  dimension: campaign_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_campaign_id ;;
+  }
+
+  dimension_group: date_start {
+    hidden: yes
+    type: time
+    label: "Start"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    allow_fill: no
+    sql: ${TABLE}._sdc_source_key_date_start ;;
+  }
 }
 
 view: ads_insights__video_p95_watched_actions {
-  extends: [ads_insights__actions_base]
+  extends: [stitch_base, facebook_ads_config, ads_insights__actions_base]
+  derived_table: {
+    sql:
+      SELECT
+        video_p95_watched_actions.*
+      FROM
+      {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__video_p95_watched_actions" as video_p95_watched_actions
+      ;;
+  }
+
+  dimension: ad_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_ad_id ;;
+  }
+
+  dimension: adset_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_adset_id ;;
+  }
+
+  dimension: campaign_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_campaign_id ;;
+  }
+
+  dimension_group: date_start {
+    hidden: yes
+    type: time
+    label: "Start"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    allow_fill: no
+    sql: ${TABLE}._sdc_source_key_date_start ;;
+  }
 }
 
 view: ads_insights__actions {
-  extends: [ads_insights__actions_base]
+  extends: [stitch_base, facebook_ads_config, ads_insights__actions_base]
+  derived_table: {
+    sql:
+      SELECT
+        actions.*
+      FROM
+      {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__actions" as actions
+      ;;
+  }
+
+  dimension: ad_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_ad_id ;;
+  }
+
+  dimension: adset_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_adset_id ;;
+  }
+
+  dimension: campaign_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_campaign_id ;;
+  }
+
+  dimension_group: date_start {
+    hidden: yes
+    type: time
+    label: "Start"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    allow_fill: no
+    sql: ${TABLE}._sdc_source_key_date_start ;;
+  }
 }
 
 view: ads_insights__website_ctr {
-  extends: [ads_insights__actions_website_base]
+  extends: [stitch_base, facebook_ads_config, ads_insights__actions_website_base]
+  derived_table: {
+    sql:
+      SELECT
+        website_ctr.*
+      FROM
+      {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__website_ctr" as website_ctr
+      ;;
+  }
 }
 
 view: ads_insights__video_15_sec_watched_actions {
-  extends: [ads_insights__actions_base]
+  extends: [stitch_base, facebook_ads_config, ads_insights__actions_base]
+  derived_table: {
+    sql:
+      SELECT
+        video_15_sec_watched_actions.*
+      FROM
+      {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__video_15_sec_watched_actions" as video_15_sec_watched_actions
+      ;;
+  }
+
+  dimension: ad_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_ad_id ;;
+  }
+
+  dimension: adset_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_adset_id ;;
+  }
+
+  dimension: campaign_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_campaign_id ;;
+  }
+
+  dimension_group: date_start {
+    hidden: yes
+    type: time
+    label: "Start"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    allow_fill: no
+    sql: ${TABLE}._sdc_source_key_date_start ;;
+  }
 }
 
 view: ads_insights__video_10_sec_watched_actions {
-  extends: [ads_insights__actions_base]
+  extends: [stitch_base, facebook_ads_config, ads_insights__actions_base]
+  derived_table: {
+    sql:
+      SELECT
+        video_10_sec_watched_actions.*
+      FROM
+      {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__video_10_sec_watched_actions" as video_10_sec_watched_actions
+      ;;
+  }
+
+  dimension: ad_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_ad_id ;;
+  }
+
+  dimension: adset_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_adset_id ;;
+  }
+
+  dimension: campaign_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_campaign_id ;;
+  }
+
+  dimension_group: date_start {
+    hidden: yes
+    type: time
+    label: "Start"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    allow_fill: no
+    sql: ${TABLE}._sdc_source_key_date_start ;;
+  }
 }
 
 view: ads_insights__unique_actions {
-  extends: [ads_insights__actions_base]
+  extends: [stitch_base, facebook_ads_config, ads_insights__actions_base]
+  derived_table: {
+    sql:
+      SELECT
+        unique_actions.*
+      FROM
+      {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__unique_actions" as unique_actions
+      ;;
+  }
+
+  dimension: ad_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_ad_id ;;
+  }
+
+  dimension: adset_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_adset_id ;;
+  }
+
+  dimension: campaign_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_campaign_id ;;
+  }
+
+  dimension_group: date_start {
+    hidden: yes
+    type: time
+    label: "Start"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    allow_fill: no
+    sql: ${TABLE}._sdc_source_key_date_start ;;
+  }
+
 }
 
 view: ads_insights__video_p25_watched_actions {
-  extends: [ads_insights__actions_base]
+  extends: [stitch_base, facebook_ads_config, ads_insights__actions_base]
+  derived_table: {
+    sql:
+      SELECT
+        video_p25_watched_actions.*
+      FROM
+      {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__video_p25_watched_actions" as video_p25_watched_actions
+      ;;
+  }
+
+  dimension: ad_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_ad_id ;;
+  }
+
+  dimension: adset_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_adset_id ;;
+  }
+
+  dimension: campaign_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_campaign_id ;;
+  }
+
+  dimension_group: date_start {
+    hidden: yes
+    type: time
+    label: "Start"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    allow_fill: no
+    sql: ${TABLE}._sdc_source_key_date_start ;;
+  }
 }
 
 view: ads_insights__video_p100_watched_actions {
-  extends: [ads_insights__actions_base]
+  extends: [stitch_base, facebook_ads_config, ads_insights__actions_base]
+  derived_table: {
+    sql:
+      SELECT
+        video_p100_watched_actions.*
+      FROM
+      {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__video_p100_watched_actions" as video_p100_watched_actions
+      ;;
+  }
+
+  dimension: ad_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_ad_id ;;
+  }
+
+  dimension: adset_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_adset_id ;;
+  }
+
+  dimension: campaign_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_campaign_id ;;
+  }
+
+  dimension_group: date_start {
+    hidden: yes
+    type: time
+    label: "Start"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    allow_fill: no
+    sql: ${TABLE}._sdc_source_key_date_start ;;
+  }
 }
 
 view: ads_insights__video_p50_watched_actions {
-  extends: [ads_insights__actions_base]
+  extends: [stitch_base, facebook_ads_config, ads_insights__actions_base]
+  derived_table: {
+    sql:
+      SELECT
+        video_p50_watched_actions.*
+      FROM
+      {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__video_p50_watched_actions" as video_p50_watched_actions
+      ;;
+  }
+
+  dimension: ad_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_ad_id ;;
+  }
+
+  dimension: adset_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_adset_id ;;
+  }
+
+  dimension: campaign_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_campaign_id ;;
+  }
+
+  dimension_group: date_start {
+    hidden: yes
+    type: time
+    label: "Start"
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    allow_fill: no
+    sql: ${TABLE}._sdc_source_key_date_start ;;
+  }
 }
 
 view: ads_insights__relevance_score {
+  extends: [stitch_base, facebook_ads_config]
+  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_ads_insights_{{ facebook_account_id._sql }} ;;
+
+  dimension: ad_id {
+    hidden:  yes
+    type: string
+  }
+
+  dimension: adset_id {
+    hidden:  yes
+    type: string
+  }
+
+  dimension: campaign_id {
+    hidden:  yes
+    type: string
+  }
+
   dimension: negative_feedback {
     hidden: yes
     type: string
+    sql: ${TABLE}.relevance_score__negative_feedback ;;
   }
 
   dimension: positive_feedback {
     hidden: yes
     type: string
+    sql: ${TABLE}.relevance_score__positive_feedback ;;
   }
 
   dimension: score {
     hidden: yes
     type: number
+    sql: ${TABLE}.relevance_score__score ;;
   }
 
   dimension: status {
     hidden: yes
     type: string
+    sql: ${TABLE}.relevance_score__status ;;
   }
 }

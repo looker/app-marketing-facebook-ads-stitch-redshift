@@ -6,39 +6,9 @@ include: "adset.view"
 explore: adcreative_nested_joins_base {
   extension: required
 
-  join: adcreative__object_story_spec {
+  join: adcreative_object_story_spec {
     view_label: "Adcreative: Object Story Spec"
-    sql: LEFT JOIN UNNEST([${adcreative.object_story_spec}]) as adcreative__object_story_spec ;;
-    relationship: one_to_one
-  }
-
-  join: adcreative__object_story_spec__video_data__call_to_action {
-    view_label: "Adcreative: Object Story Spec Video Data Call To Action"
-    sql: LEFT JOIN UNNEST([${adcreative__object_story_spec__video_data.call_to_action}]) as adcreative__object_story_spec__video_data__call_to_action ;;
-    relationship: one_to_one
-  }
-
-  join: adcreative__object_story_spec__video_data__call_to_action__value {
-    view_label: "Adcreative: Object Story Spec Video Data Call To Action Value"
-    sql: LEFT JOIN UNNEST([${adcreative__object_story_spec__video_data__call_to_action.value}]) as adcreative__object_story_spec__video_data__call_to_action__value ;;
-    relationship: one_to_one
-  }
-
-  join: adcreative__object_story_spec__video_data {
-    view_label: "Adcreative: Object Story Spec Video Data"
-    sql: LEFT JOIN UNNEST([${adcreative__object_story_spec.video_data}]) as adcreative__object_story_spec__video_data ;;
-    relationship: one_to_one
-  }
-
-  join: adcreative__object_story_spec__link_data__call_to_action {
-    view_label: "Adcreative: Object Story Spec Link Data Call To Action"
-    sql: LEFT JOIN UNNEST([${adcreative__object_story_spec__link_data.call_to_action}]) as adcreative__object_story_spec__link_data__call_to_action ;;
-    relationship: one_to_one
-  }
-
-  join: adcreative__object_story_spec__link_data {
-    view_label: "Adcreative: Object Story Spec Link Data"
-    sql: LEFT JOIN UNNEST([${adcreative__object_story_spec.link_data}]) as adcreative__object_story_spec__link_data ;;
+    sql_on: ${adcreative.id} = ${adcreative_object_story_spec.id};;
     relationship: one_to_one
   }
 }
@@ -74,7 +44,7 @@ explore: adcreative_fb_adapter {
 
 view: adcreative_fb_adapter {
   extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ adcreative.facebook_ads_schema._sql }}.adcreative ;;
+  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_adcreative_{{ facebook_account_id._sql }} ;;
 
   dimension: id {
     hidden: yes
@@ -149,7 +119,7 @@ view: adcreative_fb_adapter {
 
   dimension: status_active {
     type: yesno
-    sql: ${status} = "ACTIVE" ;;
+    sql: ${status} = 'ACTIVE' ;;
   }
 
   dimension: thumbnail_url {
@@ -167,14 +137,49 @@ view: adcreative_fb_adapter {
   }
 }
 
-view: adcreative__object_story_spec {
+view: adcreative_object_story_spec {
+  extends: [stitch_base, facebook_ads_config]
+  derived_table: {
+    sql:
+        SELECT
+          adcreative.id as id,
+          adcreative._sdc_batched_at,
+          adcreative._sdc_received_at,
+          adcreative._sdc_sequence,
+          adcreative._sdc_table_version,
+          adcreative.object_story_spec__instagram_actor_id as instagram_actor_id,
+          adcreative.object_story_spec__page_id as page_id,
+          adcreative.object_story_spec__video_data__call_to_action__type as video_data_call_to_action_type,
+          adcreative.object_story_spec__link_data__call_to_action__type as link_data_call_to_action_type,
+          adcreative.object_story_spec__video_data__call_to_action__value__link as video_data_call_to_action_link,
+          adcreative.object_story_spec__video_data__call_to_action__value__link_caption as video_data_call_to_action_link_caption,
+          adcreative.object_story_spec__video_data__image_hash as video_data__image_hash,
+          adcreative.object_story_spec__video_data__image_url as video_data__image_url,
+          adcreative.object_story_spec__video_data__video_id as video_data__video_id,
+          adcreative.object_story_spec__video_data__description as video_data__description,
+          adcreative.object_story_spec__link_data__name as link_data_name,
+          adcreative.object_story_spec__link_data__message as link_data_message,
+          adcreative.object_story_spec__link_data__link as link_data_link,
+          adcreative.object_story_spec__link_data__image_hash as link_data_image_hash,
+          adcreative.object_story_spec__link_data__description as link_data_description,
+          adcreative.object_story_spec__link_data__caption as link_data_caption
+          adcreative.object_story_spec__link_data__picture as link_data_picture
+          adcreative.object_story_spec__link_data__attachment_style as link_data_attachment_style
+
+        FROM
+        {{ facebook_ads_schema._sql }}.facebook_adcreative_{{ facebook_account_id._sql }} as adcreative
+        ;;
+  }
+
   dimension: instagram_actor_id {
     hidden: yes
     type: string
   }
 
-  dimension: link_data {
+
+  dimension: id {
     hidden: yes
+    type: string
   }
 
   dimension: page_id {
@@ -182,129 +187,110 @@ view: adcreative__object_story_spec {
     type: string
   }
 
-  dimension: video_data {
-    hidden: yes
-  }
-}
-
-view: adcreative__object_story_spec__video_data__call_to_action {
-  dimension: type {
+  dimension: video_data_call_to_action_type {
     hidden: yes
     type: string
   }
 
-  dimension: value {
-    hidden: yes
-  }
-}
 
-view: adcreative__object_story_spec__video_data__call_to_action__value {
-  dimension: lead_gen_form_id {
+  dimension: link_data_call_to_action_type {
     hidden: yes
     type: string
   }
 
-  dimension: link {
+  dimension: video_data_call_to_action_link {
     hidden: yes
     type: string
   }
 
-  dimension: link_caption {
+  dimension: video_data_call_to_action_link_caption {
     hidden: yes
     type: string
   }
 
-  dimension: link_format {
+  dimension: video_data_call_to_action_link_format {
     hidden: yes
     type: string
-  }
-}
-
-view: adcreative__object_story_spec__video_data {
-  dimension: call_to_action {
-    hidden: yes
+    sql: 'NA'::text ;;
   }
 
-  dimension: image_hash {
+  dimension: video_data__image_hash {
     hidden: yes
     type: string
   }
 
-  dimension: image_url {
+  dimension: video_data__image_url {
     hidden: yes
     type: string
   }
 
-  dimension: link_description {
+  dimension: video_data__video_id {
     hidden: yes
     type: string
   }
 
-  dimension: message {
+  dimension: video_data__description {
     hidden: yes
     type: string
   }
 
-  dimension: title {
+  dimension: video_data__call_to_action_lead_gen_form_id {
+    hidden: yes
+    type: string
+    sql: 'NA'::text ;;
+  }
+
+  dimension: video_data_message {
+    hidden: yes
+    type: string
+    sql: 'NA'::text ;;
+  }
+
+  dimension: video_data_title {
+    hidden: yes
+    type: string
+    sql: 'NA'::text ;;
+  }
+
+  dimension: link_data_name {
     hidden: yes
     type: string
   }
 
-  dimension: video_id {
-    hidden: yes
-    type: string
-  }
-}
-
-view: adcreative__object_story_spec__link_data__call_to_action {
-  dimension: type {
-    hidden: yes
-    type: string
-  }
-}
-
-view: adcreative__object_story_spec__link_data {
-  dimension: attachment_style {
+  dimension: link_data_message {
     hidden: yes
     type: string
   }
 
-  dimension: call_to_action {
-    hidden: yes
-  }
-
-  dimension: caption {
+  dimension: link_data_link {
     hidden: yes
     type: string
   }
 
-  dimension: description {
+  dimension: link_data_image_hash {
     hidden: yes
     type: string
   }
 
-  dimension: image_hash {
+  dimension: link_data_description {
     hidden: yes
     type: string
   }
 
-  dimension: link {
+  dimension: link_data_caption {
     hidden: yes
     type: string
   }
 
-  dimension: message {
+  dimension: link_data_picture {
     hidden: yes
     type: string
   }
 
-  dimension: name {
+  dimension: link_data_attachment_style {
     hidden: yes
     type: string
   }
 
-  dimension: picture {
-    hidden: yes
-    type: string
-  }
+
 }

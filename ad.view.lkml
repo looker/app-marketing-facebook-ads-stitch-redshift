@@ -5,158 +5,33 @@ include: "adset.view"
 explore: ad_nested_joins_base {
   extension: required
 
-  join: ad__conversion_specs__action_type {
+  join: ad__conversion_specs {
     view_label: "Ad: Conversion Specs"
-    from: ad__conversion_specs__action_type
-    sql_on: ${ad.id} = ${ad__conversion_specs__action_type._sdc_source_key_id} ;;
-    relationship: one_to_one
-  }
-
-  join: ad__conversion_specs__conversion_id {
-    view_label: "Ad: Conversion Specs"
-    from: ad__conversion_specs__conversion_id
-    sql_on: ${ad.id} = ${ad__conversion_specs__conversion_id._sdc_source_key_id} ;;
-    relationship: one_to_one
-  }
-
-  join: ad__conversion_specs__page {
-    view_label: "Ad: Conversion Specs"
-    from: ad__conversion_specs__page
-    sql_on: ${ad.id} = ${ad__conversion_specs__page._sdc_source_key_id} ;;
-    relationship: one_to_one
-  }
-
-  join: ad__conversion_specs__post {
-    view_label: "Ad: Conversion Specs"
-    from: ad__conversion_specs__post
-    sql_on: ${ad.id} = ${ad__conversion_specs__post._sdc_source_key_id} ;;
-    relationship: one_to_one
-  }
-
-  join: ad__conversion_specs__post_wall {
-    view_label: "Ad: Conversion Specs"
-    from: ad__conversion_specs__post_wall
-    sql_on: ${ad.id} = ${ad__conversion_specs__post_wall._sdc_source_key_id} ;;
-    relationship: one_to_one
+    sql_on: ${ad.id} = ${ad__conversion_specs.id} ;;
+    relationship: one_to_many
   }
 
   join: ad__bid_info {
     view_label: "Ad: Bid Info"
-    sql: LEFT JOIN UNNEST([${ad.bid_info}]) as ad__bid_info ;;
+    sql_on: ${ad.id} = ${ad__bid_info.id};;
     relationship: one_to_one
   }
 
   join: ad__recommendations {
     view_label: "Ad: Recommendations"
-    sql: LEFT JOIN UNNEST(${ad.recommendations}) as ad__recommendations ;;
-    relationship: one_to_many
+    sql_on: ${ad.id} = ${ad__recommendations.id} ;;
+    relationship: one_to_one
   }
 
   join: ad__targeting {
     view_label: "Ad: Targeting"
-    sql: LEFT JOIN UNNEST([${ad.targeting}]) as ad__targeting ;;
+    sql_on: ${ad.id} = ${ad__targeting.id}  ;;
     relationship: one_to_one
   }
 
-  join: ad__targeting__friends_of_connections {
-    view_label: "Ad: Targeting Friends Of Connections"
-    sql: LEFT JOIN UNNEST(${ad__targeting.friends_of_connections}) as ad__targeting__friends_of_connections ;;
-    relationship: one_to_many
-  }
-
-  join: ad__targeting__geo_locations__regions {
-    view_label: "Ad: Targeting Geo Locations Regions"
-    sql: LEFT JOIN UNNEST(${ad__targeting__geo_locations.regions}) as ad__targeting__geo_locations__regions ;;
-    relationship: one_to_many
-  }
-
-  join: ad__targeting__geo_locations {
-    view_label: "Ad: Targeting Geo Locations"
-    sql: LEFT JOIN UNNEST([${ad__targeting.geo_locations}]) as ad__targeting__geo_locations ;;
-    relationship: one_to_one
-  }
-
-  join: ad__targeting__geo_locations__cities {
-    view_label: "Ad: Targeting Geo Locations Cities"
-    sql: LEFT JOIN UNNEST(${ad__targeting__geo_locations.cities}) as ad__targeting__geo_locations__cities ;;
-    relationship: one_to_many
-  }
-
-  join: ad__targeting__geo_locations__countries {
-    view_label: "Ad: Targeting Geo Locations Countries"
-    sql: LEFT JOIN UNNEST(${ad__targeting__geo_locations.countries}) as ad__targeting__geo_locations__countries ;;
-    relationship: one_to_many
-  }
-
-  join: ad__targeting__geo_locations__location_types {
-    view_label: "Ad: Targeting Geo Locations Location Types"
-    sql: LEFT JOIN UNNEST(${ad__targeting__geo_locations.location_types}) as ad__targeting__geo_locations__location_types ;;
-    relationship: one_to_many
-  }
-
-  join: ad__targeting__geo_locations__zips {
-    view_label: "Ad: Targeting Geo Locations Zips"
-    sql: LEFT JOIN UNNEST(${ad__targeting__geo_locations.zips}) as ad__targeting__geo_locations__zips ;;
-    relationship: one_to_many
-  }
-
-  join: ad__targeting__custom_audiences {
-    view_label: "Ad: Targeting Custom Audiences"
-    sql: LEFT JOIN UNNEST(${ad__targeting.custom_audiences}) as ad__targeting__custom_audiences ;;
-    relationship: one_to_many
-  }
-
-  join: ad__targeting__flexible_spec__work_positions {
-    view_label: "Ad: Targeting Flexible Spec Work Positions"
-    sql: LEFT JOIN UNNEST(${ad__targeting__flexible_spec.work_positions}) as ad__targeting__flexible_spec__work_positions ;;
-    relationship: one_to_many
-  }
-
-  join: ad__targeting__flexible_spec__friends_of_connections {
-    view_label: "Ad: Targeting Flexible Spec Friends Of Connections"
-    sql: LEFT JOIN UNNEST(${ad__targeting__flexible_spec.friends_of_connections}) as ad__targeting__flexible_spec__friends_of_connections ;;
-    relationship: one_to_many
-  }
-
-  join: ad__targeting__flexible_spec__behaviors {
-    view_label: "Ad: Targeting Flexible Spec Behaviors"
-    sql: LEFT JOIN UNNEST(${ad__targeting__flexible_spec.behaviors}) as ad__targeting__flexible_spec__behaviors ;;
-    relationship: one_to_many
-  }
-
-  join: ad__targeting__flexible_spec__interests {
-    view_label: "Ad: Targeting Flexible Spec Interests"
-    sql: LEFT JOIN UNNEST(${ad__targeting__flexible_spec.interests}) as ad__targeting__flexible_spec__interests ;;
-    relationship: one_to_many
-  }
-
-  join: ad__targeting__flexible_spec__connections {
-    view_label: "Ad: Targeting Flexible Spec Connections"
-    sql: LEFT JOIN UNNEST(${ad__targeting__flexible_spec.connections}) as ad__targeting__flexible_spec__connections ;;
-    relationship: one_to_many
-  }
-
-  join: ad__targeting__flexible_spec__work_employers {
-    view_label: "Ad: Targeting Flexible Spec Work Employers"
-    sql: LEFT JOIN UNNEST(${ad__targeting__flexible_spec.work_employers}) as ad__targeting__flexible_spec__work_employers ;;
-    relationship: one_to_many
-  }
-
-  join: ad__targeting__interests {
-    view_label: "Ad: Targeting Interests"
-    sql: LEFT JOIN UNNEST(${ad__targeting.interests}) as ad__targeting__interests ;;
-    relationship: one_to_many
-  }
-
-  join: ad__tracking_specs {
-    view_label: "Ad: Tracking Specs"
-    sql: LEFT JOIN UNNEST([${ad.tracking_specs}]) as ad__tracking_specs ;;
-    relationship: one_to_one
-  }
-
-  join: ad__targeting__flexible_spec {
-    view_label: "Ad: Targeting Flexible Spec"
-    sql: LEFT JOIN UNNEST(${ad__targeting.flexible_spec}) as ad__targeting__flexible_spec ;;
+  join: ad__targeting__geo {
+    view_label: "Ad: Targeting Geo"
+    sql_on: ${ad.id} = ${ad__targeting__geo.id};;
     relationship: one_to_one
   }
 }
@@ -279,7 +154,7 @@ view: ad_fb_adapter {
 
   dimension: status_active {
     type: yesno
-    sql: ${status} = "ACTIVE" ;;
+    sql: ${status} = 'ACTIVE' ;;
   }
 
   dimension: targeting {
@@ -305,100 +180,136 @@ view: ad_fb_adapter {
   }
 }
 
-view: ad__conversion_specs__action_type {
+view: ad__conversion_specs {
   extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__action.type" ;;
-
-  dimension: _sdc_source_key_id {
-    hidden: yes
-    type: string
-    sql: ${TABLE}._sdc_source_key_id ;;
+  derived_table: {
+    sql:
+      SELECT
+        ad.id as id,
+        ad._sdc_batched_at,
+        ad._sdc_received_at,
+        ad._sdc_sequence,
+        ad._sdc_table_version,
+        __conversion_specs__action_type.value as action_type,
+        __conversion_specs__conversion_id.value as conversion_id,
+        __conversion_specs__page.value as page,
+        __conversion_specs__post.value as post,
+        __conversion_specs__post_wall.value as post_wall
+      FROM
+      {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }} as ad
+      LEFT JOIN
+      {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__action.type"
+      as __conversion_specs__action_type ON
+        ad.id = __conversion_specs__action_type._sdc_source_key_id
+      LEFT JOIN
+       {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__conversion_id"
+      as __conversion_specs__conversion_id ON
+        ad.id = __conversion_specs__conversion_id._sdc_source_key_id
+      LEFT JOIN {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__page"
+      as __conversion_specs__page ON
+        ad.id = __conversion_specs__page._sdc_source_key_id
+      LEFT JOIN {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__post"
+      as __conversion_specs__post ON
+        ad.id = __conversion_specs__post._sdc_source_key_id
+      Left JOIN {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__post.wall"
+      as __conversion_specs__post_wall ON
+        ad.id = __conversion_specs__post_wall._sdc_source_key_id
+      ;;
   }
 
   dimension: action_type {
     hidden: no
     type: string
-    sql: ${TABLE}.value ;;
+    sql: ${TABLE}.action_type ;;
   }
-}
 
-view: ad__conversion_specs__conversion_id {
-  extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__conversion_id ;;
-
-  dimension: _sdc_source_key_id {
-    hidden: yes
+  dimension: id {
+    hidden: no
     type: string
-    sql: ${TABLE}._sdc_source_key_id ;;
+    sql: ${TABLE}.id ;;
   }
 
   dimension: conversion_id {
     hidden: no
     type: string
-    sql: ${TABLE}.value ;;
-  }
-}
-
-view: ad__conversion_specs__page {
-  extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__page ;;
-
-  dimension: _sdc_source_key_id {
-    hidden: yes
-    type: string
-    sql: ${TABLE}._sdc_source_key_id ;;
+    sql: ${TABLE}.conversion_id ;;
   }
 
   dimension: page {
     hidden: no
     type: string
-    sql: ${TABLE}.value ;;
-  }
-}
-
-view: ad__conversion_specs__post {
-  extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__post ;;
-
-  dimension: _sdc_source_key_id {
-    hidden: yes
-    type: string
-    sql: ${TABLE}._sdc_source_key_id ;;
+    sql: ${TABLE}.page ;;
   }
 
   dimension: post {
     hidden: no
     type: string
-    sql: ${TABLE}.value ;;
-  }
-}
-
-view: ad__conversion_specs__post_wall {
-  extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__conversion_specs__post.wall" ;;
-
-  dimension: _sdc_source_key_id {
-    hidden: yes
-    type: string
-    sql: ${TABLE}._sdc_source_key_id ;;
+    sql: ${TABLE}.post ;;
   }
 
   dimension: post_wall {
     hidden: no
     type: string
-    sql: ${TABLE}.value ;;
+    sql: ${TABLE}.post_wall ;;
   }
 }
 
 view: ad__bid_info {
+  extends: [stitch_base, facebook_ads_config]
+  derived_table: {
+    sql:
+      SELECT
+        ad.id as id,
+        ad._sdc_batched_at,
+        ad._sdc_received_at,
+        ad._sdc_sequence,
+        ad._sdc_table_version,
+        ad.bid_info__actions as actions,
+        ad.bid_info__clicks as clicks,
+        ad.bid_info__reach as reach
+      FROM
+      {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }} as ad
+      ;;
+  }
+
   dimension: actions {
-    hidden: yes
-    type: number
+    hidden: no
+    type: string
     sql: ${TABLE}.actions ;;
+  }
+
+  dimension: id {
+    hidden: no
+    type: string
+    sql: ${TABLE}.id ;;
+  }
+
+  dimension: clicks {
+    hidden: no
+    type: string
+    sql: ${TABLE}.clicks ;;
+  }
+
+  dimension: reach {
+    hidden: no
+    type: string
+    sql: ${TABLE}.reach ;;
   }
 }
 
 view: ad__recommendations {
+  derived_table: {
+    sql:
+      SELECT
+        0 as id,
+        'NA'::text as blame_field,
+        0 as code,
+        'NA'::text as confidence,
+        'NA'::text as importance,
+        'NA'::text as message
+        ;;
+  }
+
   dimension: blame_field {
     hidden: yes
     type: string
@@ -429,52 +340,90 @@ view: ad__recommendations {
     sql: ${TABLE}.message ;;
   }
 
-  dimension: title {
+  dimension: id {
     hidden: yes
     type: string
-    sql: ${TABLE}.title ;;
+    sql: ${TABLE}.id ;;
   }
 }
 
 view: ad__targeting {
-  dimension: age_max {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.age_max ;;
+  extends: [stitch_base, facebook_ads_config]
+  derived_table: {
+    sql:
+      SELECT
+        ad.id as id,
+        ad._sdc_batched_at,
+        ad._sdc_received_at,
+        ad._sdc_sequence,
+        ad._sdc_table_version,
+        ad.targeting__age_max as targeting__age_max,
+        ad.targeting__age_min as targeting__age_min,
+        ad.targeting__targeting_optimization as targeting_optimization,
+        __targeting__friends_of_connections.name as friends_of_connections,
+        __targeting__interests.name as interests,
+        __targeting__flexible_spec__behaviors.name as behaviors,
+        __targeting__flexible_spec__interests.name as flexible_spec_interests,
+        __targeting__custom_audiences.name as custom_audiences,
+        __targeting__flexible_spec__connections.name as connections,
+        'NA'::text as work_employers,
+        __targeting__flexible_spec__work_positions.name as work_positions,
+        __targeting__device_platforms.value as device_platforms,
+        __targeting__publisher_platforms.value as publisher_platforms,
+        __targeting__flexible_spec__friends_of_connections.name as flexible_spec_friends_of_connections,
+        'NA'::text as messenger_positions,
+        'NA'::text as audience_network_positions,
+        __targeting__facebook_positions.value as facebook_positions,
+        __targeting__instagram_positions.value as instagram_positions
+      FROM
+      {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }} as ad
+      LEFT JOIN
+      {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__friends_of_connections"
+      as __targeting__friends_of_connections ON
+        ad.id = __targeting__friends_of_connections._sdc_source_key_id
+      LEFT JOIN
+       {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__interests"
+      as __targeting__interests ON
+        ad.id = __targeting__interests._sdc_source_key_id
+      LEFT JOIN {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__flexible_spec__behaviors"
+      as __targeting__flexible_spec__behaviors ON
+        ad.id = __targeting__flexible_spec__behaviors._sdc_source_key_id
+      LEFT JOIN {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__flexible_spec__interests"
+      as __targeting__flexible_spec__interests ON
+        ad.id = __targeting__flexible_spec__interests._sdc_source_key_id
+      LEFT JOIN {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__custom_audiences"
+      as __targeting__custom_audiences ON
+        ad.id = __targeting__custom_audiences._sdc_source_key_id
+      LEFT JOIN {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__flexible_spec__connections"
+      as __targeting__flexible_spec__connections ON
+        ad.id = __targeting__flexible_spec__connections._sdc_source_key_id
+      LEFT JOIN {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__flexible_spec__work_positions"
+      as __targeting__flexible_spec__work_positions ON
+        ad.id = __targeting__flexible_spec__work_positions._sdc_source_key_id
+      LEFT JOIN {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__device_platforms"
+      as __targeting__device_platforms ON
+        ad.id = __targeting__device_platforms._sdc_source_key_id
+      LEFT JOIN {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__publisher_platforms"
+      as __targeting__publisher_platforms ON
+        ad.id = __targeting__publisher_platforms._sdc_source_key_id
+      LEFT JOIN {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__flexible_spec__friends_of_connections"
+      as __targeting__flexible_spec__friends_of_connections ON
+        ad.id = __targeting__flexible_spec__friends_of_connections._sdc_source_key_id
+      LEFT JOIN {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__facebook_positions"
+      as __targeting__facebook_positions ON
+        ad.id = __targeting__facebook_positions._sdc_source_key_id
+      LEFT JOIN {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__instagram_positions"
+      as __targeting__instagram_positions ON
+        ad.id = __targeting__instagram_positions._sdc_source_key_id
+
+      ;;
   }
 
-  dimension: age_min {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.age_min ;;
-  }
-
-  dimension: audience_network_positions {
-    hidden: yes
+  dimension: id {
+    hidden: no
     type: string
-    sql: ${TABLE}.audience_network_positions ;;
-  }
-
-  dimension: custom_audiences {
-    hidden: yes
-    sql: ${TABLE}.custom_audiences ;;
-  }
-
-  dimension: device_platforms {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.device_platforms ;;
-  }
-
-  dimension: facebook_positions {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.facebook_positions ;;
-  }
-
-  dimension: flexible_spec {
-    hidden: yes
-    sql: ${TABLE}.flexible_spec ;;
+    sql: ${TABLE}.id ;;
+    primary_key: yes
   }
 
   dimension: friends_of_connections {
@@ -482,379 +431,183 @@ view: ad__targeting {
     sql: ${TABLE}.friends_of_connections ;;
   }
 
-  dimension: geo_locations {
-    hidden: yes
-    sql: ${TABLE}.geo_locations ;;
-  }
-
-  dimension: instagram_positions {
-    hidden: yes
+  dimension: behaviors {
+    hidden: no
     type: string
-    sql: ${TABLE}.instagram_positions ;;
+    sql: ${TABLE}.behaviors ;;
   }
 
   dimension: interests {
-    hidden: yes
+    hidden: no
+    type: string
     sql: ${TABLE}.interests ;;
   }
 
-  dimension: messenger_positions {
-    hidden: yes
+  dimension: flexible_spec_interests {
+    hidden: no
     type: string
-    sql: ${TABLE}.messenger_positions ;;
+    sql: ${TABLE}.flexible_spec_interests ;;
+  }
+
+  dimension: custom_audiences {
+    hidden: no
+    type: string
+    sql: ${TABLE}.custom_audiences ;;
+  }
+
+  dimension: connections {
+    hidden: no
+    type: string
+    sql: ${TABLE}.connections ;;
+  }
+
+  dimension: work_employers {
+    hidden: no
+    type: string
+    sql: ${TABLE}.work_employers ;;
+  }
+
+  dimension: work_positions {
+    hidden: no
+    type: string
+    sql: ${TABLE}.work_positions ;;
+  }
+
+  dimension: device_platforms {
+    hidden: no
+    type: string
+    sql: ${TABLE}.device_platforms ;;
   }
 
   dimension: publisher_platforms {
-    hidden: yes
+    hidden: no
     type: string
     sql: ${TABLE}.publisher_platforms ;;
   }
 
+  dimension: flexible_spec_friends_of_connections {
+    hidden: no
+    type: string
+    sql: ${TABLE}.flexible_spec_friends_of_connections ;;
+  }
+
+  dimension: messenger_positions {
+    hidden: no
+    type: string
+    sql: ${TABLE}.messenger_positions ;;
+  }
+
+  dimension: facebook_positions {
+    hidden: no
+    type: string
+    sql: ${TABLE}.facebook_positions ;;
+  }
+
+  dimension: instagram_positions {
+    hidden: no
+    type: string
+    sql: ${TABLE}.instagram_positions ;;
+  }
+
   dimension: targeting_optimization {
-    hidden: yes
+    hidden: no
     type: string
     sql: ${TABLE}.targeting_optimization ;;
   }
 }
 
-view: ad__targeting__friends_of_connections {
+view: ad__targeting__geo {
+  extends: [stitch_base, facebook_ads_config]
+  derived_table: {
+    sql:
+      SELECT
+        ad.id as id,
+        ad._sdc_batched_at,
+        ad._sdc_received_at,
+        ad._sdc_sequence,
+        ad._sdc_table_version,
+        __targeting__geo_locations__cities.country as country,
+        __targeting__geo_locations__cities.key as key,
+        __targeting__geo_locations__cities.name as city,
+        __targeting__geo_locations__cities.radius as radius,
+        __targeting__geo_locations__cities.region as region,
+        __targeting__geo_locations__cities.distance_unit as distance_unit,
+        __targeting__geo_locations__location_types.value as location_type,
+        __targeting__geo_locations__zips.region_id as region_id,
+        __targeting__geo_locations__zips.primary_city_id as primary_city_id,
+        __targeting__geo_locations__zips.name as zip
+      FROM
+      {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }} as ad
+      LEFT JOIN
+      {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__geo_locations__cities"
+      as __targeting__geo_locations__cities ON
+        ad.id = __targeting__geo_locations__cities._sdc_source_key_id
+      LEFT JOIN
+      {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__geo_locations__location_types"
+      as __targeting__geo_locations__location_types ON
+        ad.id = __targeting__geo_locations__location_types._sdc_source_key_id
+      LEFT JOIN
+      {{ facebook_ads_schema._sql }}."facebook_ads_{{ facebook_account_id._sql }}__targeting__geo_locations__zips"
+      as __targeting__geo_locations__zips ON
+        ad.id = __targeting__geo_locations__zips._sdc_source_key_id
+
+    ;;
+  }
+
   dimension: id {
-    hidden: yes
-    primary_key: yes
     type: string
+    primary_key: yes
     sql: ${TABLE}.id ;;
   }
 
-  dimension: name {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.name ;;
-  }
-}
-
-view: ad__targeting__geo_locations__regions {
   dimension: country {
-    hidden: yes
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
   }
 
   dimension: key {
-    hidden: yes
     type: string
     sql: ${TABLE}.key ;;
-  }
-
-  dimension: name {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.name ;;
-  }
-}
-
-view: ad__targeting__geo_locations {
-  dimension: cities {
-    hidden: yes
-    sql: ${TABLE}.cities ;;
-  }
-
-  dimension: countries {
-    hidden: yes
-    sql: ${TABLE}.countries ;;
-  }
-
-  dimension: location_types {
-    hidden: yes
-    sql: ${TABLE}.location_types ;;
-  }
-
-  dimension: regions {
-    hidden: yes
-    sql: ${TABLE}.regions ;;
-  }
-
-  dimension: zips {
-    hidden: yes
-    sql: ${TABLE}.zips ;;
-  }
-}
-
-view: ad__targeting__geo_locations__cities {
-  dimension: country {
-    hidden: yes
-    type: string
-    map_layer_name: countries
-    sql: ${TABLE}.country ;;
-  }
-
-  dimension: distance_unit {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.distance_unit ;;
-  }
-
-  dimension: key {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.key ;;
-  }
-
-  dimension: name {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.name ;;
-  }
-
-  dimension: radius {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.radius ;;
-  }
-
-  dimension: region {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.region ;;
-  }
-
-  dimension: region_id {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.region_id ;;
-  }
-}
-
-view: ad__targeting__geo_locations__countries {
-  dimension: country {
-    hidden: yes
-    type: string
-    map_layer_name: countries
-    sql: ${TABLE} ;;
-  }
-}
-
-view: ad__targeting__geo_locations__location_types {
-  dimension: location_type {
-    hidden: yes
-    type: string
-    sql: ${TABLE} ;;
-  }
-}
-
-view: ad__targeting__geo_locations__zips {
-  dimension: country {
-    hidden: yes
-    type: string
-    map_layer_name: countries
-    sql: ${TABLE}.country ;;
-  }
-
-  dimension: key {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.key ;;
-  }
-
-  dimension: name {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.name ;;
   }
 
   dimension: primary_city_id {
-    hidden: yes
     type: number
     sql: ${TABLE}.primary_city_id ;;
   }
 
   dimension: region_id {
-    hidden: yes
     type: number
     sql: ${TABLE}.region_id ;;
   }
-}
 
-view: ad__targeting__custom_audiences {
-  dimension: id {
-    hidden: yes
-    primary_key: yes
+  dimension: location_type {
     type: string
-    sql: ${TABLE}.id ;;
+    sql: ${TABLE}.location_type ;;
   }
 
-  dimension: name {
-    hidden: yes
+  dimension: distance_unit {
     type: string
-    sql: ${TABLE}.name ;;
+    sql: ${TABLE}.distance_unit ;;
   }
-}
 
-view: ad__targeting__flexible_spec__work_positions {
-  dimension: id {
-    hidden: yes
-    primary_key: yes
+  dimension: city {
     type: string
-    sql: ${TABLE}.id ;;
+    sql: ${TABLE}.city ;;
   }
 
-  dimension: name {
-    hidden: yes
+  dimension: radius {
+    type: number
+    sql: ${TABLE}.radius ;;
+  }
+
+  dimension: region {
     type: string
-    sql: ${TABLE}.name ;;
+    sql: ${TABLE}.region ;;
   }
-}
 
-view: ad__targeting__flexible_spec__friends_of_connections {
-  dimension: id {
-    hidden: yes
-    primary_key: yes
+  dimension: zip {
     type: string
-    sql: ${TABLE}.id ;;
-  }
-
-  dimension: name {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.name ;;
-  }
-}
-
-view: ad__targeting__flexible_spec__behaviors {
-  dimension: id {
-    hidden: yes
-    primary_key: yes
-    type: string
-    sql: ${TABLE}.id ;;
-  }
-
-  dimension: name {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.name ;;
-  }
-}
-
-view: ad__targeting__flexible_spec__interests {
-  dimension: id {
-    hidden: yes
-    primary_key: yes
-    type: string
-    sql: ${TABLE}.id ;;
-  }
-
-  dimension: name {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.name ;;
-  }
-}
-
-view: ad__targeting__flexible_spec__connections {
-  dimension: id {
-    hidden: yes
-    primary_key: yes
-    type: string
-    sql: ${TABLE}.id ;;
-  }
-
-  dimension: name {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.name ;;
-  }
-}
-
-view: ad__targeting__flexible_spec__work_employers {
-  dimension: id {
-    hidden: yes
-    primary_key: yes
-    type: string
-    sql: ${TABLE}.id ;;
-  }
-
-  dimension: name {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.name ;;
-  }
-}
-
-view: ad__targeting__interests {
-  dimension: id {
-    hidden: yes
-    primary_key: yes
-    type: string
-    sql: ${TABLE}.id ;;
-  }
-
-  dimension: name {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.name ;;
-  }
-}
-
-view: ad__tracking_specs {
-  dimension: action_type {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.action_type ;;
-  }
-
-  dimension: fb_pixel {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.fb_pixel ;;
-  }
-
-  dimension: page {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.page ;;
-  }
-
-  dimension: post {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.post ;;
-  }
-
-  dimension: post_wall {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.post_wall ;;
-  }
-}
-
-view: ad__targeting__flexible_spec {
-  dimension: behaviors {
-    hidden: yes
-    sql: ${TABLE}.behaviors ;;
-  }
-
-  dimension: connections {
-    hidden: yes
-    sql: ${TABLE}.connections ;;
-  }
-
-  dimension: friends_of_connections {
-    hidden: yes
-    sql: ${TABLE}.friends_of_connections ;;
-  }
-
-  dimension: interests {
-    hidden: yes
-    sql: ${TABLE}.interests ;;
-  }
-
-  dimension: work_employers {
-    hidden: yes
-    sql: ${TABLE}.work_employers ;;
-  }
-
-  dimension: work_positions {
-    hidden: yes
-    sql: ${TABLE}.work_positions ;;
+    sql: ${TABLE}.zip ;;
   }
 }

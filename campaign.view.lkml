@@ -8,13 +8,13 @@ explore: campaign_nested_joins_base {
 
   join: campaign__ads__data {
     view_label: "campaign: Ads Data"
-    sql: LEFT JOIN UNNEST(${campaign__ads.data}) as campaign__ads__data ;;
+    sql_on: ${campaign.id} = ${campaign__ads__data.id} ;;
     relationship: one_to_many
   }
 
   join: campaign__ads {
     view_label: "campaign: Ads"
-    sql: LEFT JOIN UNNEST([${campaign.ads}]) as campaign__ads ;;
+    sql_on: ${campaign.id} = ${campaign__ads.id} ;;
     relationship: one_to_one
   }
 }
@@ -36,7 +36,7 @@ explore: campaign_fb_adapter {
 
 view: campaign_fb_adapter {
   extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ campaign.facebook_ads_schema._sql }}.campaigns ;;
+  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_campaigns_{{ facebook_account_id._sql }} ;;
 
   dimension: id {
     hidden: yes
@@ -63,7 +63,7 @@ view: campaign_fb_adapter {
 
   dimension: status_active {
     type: yesno
-    sql: ${effective_status} = "ACTIVE" ;;
+    sql: ${effective_status} = 'ACTIVE' ;;
   }
 
   dimension: name {
@@ -74,18 +74,8 @@ view: campaign_fb_adapter {
     type: string
   }
 
-  dimension_group: start {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.start_time ;;
+  dimension: start_date {
+    sql: 'NA'::text ;;
   }
 
   dimension_group: updated {
@@ -105,6 +95,8 @@ view: campaign_fb_adapter {
 }
 
 view: campaign__ads__data {
+  extends: [stitch_base, facebook_ads_config]
+  sql_table_name: {{ facebook_ads_schema._sql }}."facebook_campaigns_{{ facebook_account_id._sql }}__ads__data" ;;
   dimension: id {
     hidden: yes
     primary_key: yes
@@ -113,7 +105,17 @@ view: campaign__ads__data {
 }
 
 view: campaign__ads {
+  derived_table: {
+    sql:
+      SELECT
+        0 as id,
+        'NA'::text as data;;
+  }
   dimension: data {
+    hidden: yes
+  }
+
+  dimension: id {
     hidden: yes
   }
 }
