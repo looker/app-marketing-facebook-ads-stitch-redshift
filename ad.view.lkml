@@ -41,7 +41,7 @@ explore: ad_fb_adapter {
   extends: [ad_nested_joins_base]
   view_name: ad
   from: ad_fb_adapter
-  # hidden: yes
+  hidden: yes
 
   join: adcreative {
     from: adcreative_fb_adapter
