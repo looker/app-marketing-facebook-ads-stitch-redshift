@@ -192,11 +192,11 @@ view: ad_impressions_fb_adapter {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    sql: concat(CAST(${_date} AS CHAR)
-      ,'|'::text, ${account_id}
-      ,'|'::text, ${campaign_id}
-      ,'|'::text, ${adset_id}
-      ,'|'::text, ${ad_id}
+    sql: concat(CAST(${_date} AS VARCHAR)
+      ,'|', ${account_id}
+      ,'|', ${campaign_id}
+      ,'|', ${adset_id}
+      ,'|', ${ad_id}
     ) ;;
   }
 
@@ -252,13 +252,13 @@ view: ad_impressions_age_and_gender_fb_adapter {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    sql: concat(CAST(${_date} AS CHAR)
-      ,'|'::text, ${account_id}
-      ,'|'::text, ${campaign_id}
-      ,'|'::text, ${adset_id}
-      ,'|'::text, ${ad_id}
-      ,'|'::text, ${age}
-      ,'|'::text, ${gender}
+    sql: concat(CAST(${_date} AS VARCHAR)
+      ,'|', ${account_id}
+      ,'|', ${campaign_id}
+      ,'|', ${adset_id}
+      ,'|', ${ad_id}
+      ,'|', ${age}
+      ,'|', ${gender}
     ) ;;
   }
 
@@ -327,12 +327,12 @@ view: ad_impressions_geo_fb_adapter {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    sql: concat(CAST(${_date} as CHAR)
-      ,'|'::text, ${account_id}
-      ,'|'::text, ${campaign_id}
-      ,'|'::text, ${adset_id}
-      ,'|'::text, ${ad_id}
-      ,'|'::text, ${country}
+    sql: concat(CAST(${_date} as VARCHAR)
+      ,'|'tex::t, ${account_id}
+      ,'|', ${campaign_id}
+      ,'|', ${adset_id}
+      ,'|', ${ad_id}
+      ,'|', ${country}
     ) ;;
   }
 
@@ -379,13 +379,13 @@ view: ad_impressions_platform_and_device_fb_adapter {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    sql: concat(CAST(${_date} AS CHAR)
-      ,'|'::text, ${account_id}
-      ,'|'::text, ${campaign_id}
-      ,'|'::text, ${adset_id}
-      ,'|'::text, ${ad_id}
-      ,'|'::text, ${impression_device}
-      ,'|'::text, ${platform_position}
+    sql: concat(CAST(${_date} AS VARCHAR)
+      ,'|', ${account_id}
+      ,'|', ${campaign_id}
+      ,'|', ${adset_id}
+      ,'|', ${ad_id}
+      ,'|', ${impression_device}
+      ,'|', ${platform_position}
     ) ;;
   }
 
