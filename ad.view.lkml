@@ -227,6 +227,7 @@ view: ad__conversion_specs {
     hidden: no
     type: string
     sql: ${TABLE}.id ;;
+    primary_key: yes
   }
 
   dimension: conversion_id {
@@ -282,6 +283,7 @@ view: ad__bid_info {
     hidden: no
     type: string
     sql: ${TABLE}.id ;;
+    primary_key: yes
   }
 
   dimension: clicks {
@@ -344,6 +346,7 @@ view: ad__recommendations {
     hidden: yes
     type: string
     sql: ${TABLE}.id ;;
+    primary_key: yes
   }
 }
 
