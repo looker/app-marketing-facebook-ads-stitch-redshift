@@ -522,6 +522,7 @@ view: ads_insights__actions {
         || ${action_type} || '|'
         || ${date_start_date};;
     primary_key: yes
+    hidden: yes
   }
 
   dimension: ad_id {
