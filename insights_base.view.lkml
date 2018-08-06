@@ -520,7 +520,8 @@ view: ads_insights__actions {
         || ${adset_id} || '|'
         || ${campaign_id} || '|'
         || ${action_type} || '|'
-        || ${date_start_date};;
+        || ${date_start_date} || '|'
+        || ${action_target_id};;
     primary_key: yes
     hidden: yes
   }
@@ -542,6 +543,13 @@ view: ads_insights__actions {
     type: string
     sql: ${TABLE}._sdc_source_key_campaign_id ;;
   }
+
+  dimension: action_target_id {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}.action_target_id ;;
+  }
+
 
   dimension_group: date_start {
     hidden: yes
