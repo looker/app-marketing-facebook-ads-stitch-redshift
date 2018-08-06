@@ -294,7 +294,6 @@ view: ads_insights__actions_website_base {
 
   dimension: action_target_id {
     hidden: yes
-    primary_key: yes
     type: string
   }
 
@@ -495,11 +494,34 @@ view: ads_insights__actions {
   extends: [stitch_base, facebook_ads_config, ads_insights__actions_base]
   derived_table: {
     sql:
-      SELECT
-        actions.*
-      FROM
-      {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__actions" as actions
-      ;;
+      SELECT actions.*
+      FROM {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__actions" as actions
+      INNER JOIN (
+        SELECT
+        MAX(_sdc_sequence) AS seq
+        , _sdc_source_key_ad_id as ad_id
+        , _sdc_source_key_adset_id as adset_id
+        , _sdc_source_key_campaign_id as campaign_id
+        , _sdc_source_key_date_start as date_start
+        , action_type
+        FROM {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__actions"
+        GROUP BY ad_id, adset_id, campaign_id, date_start, action_type
+      ) AS max_ads_actions
+      ON actions._sdc_source_key_ad_id = max_ads_actions.ad_id
+      AND actions._sdc_source_key_adset_id = max_ads_actions.adset_id
+      AND actions._sdc_source_key_campaign_id = max_ads_actions.campaign_id
+      AND actions._sdc_source_key_date_start = max_ads_actions.date_start
+      AND actions._sdc_sequence = max_ads_actions.seq
+      AND actions.action_type = max_ads_actions.action_type ;;
+  }
+
+  dimension: id {
+    sql: ${ad_id} || '|'
+        || ${adset_id} || '|'
+        || ${campaign_id} || '|'
+        || ${action_type} || '|'
+        || ${date_start_date};;
+    primary_key: yes
   }
 
   dimension: ad_id {
