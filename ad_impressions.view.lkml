@@ -43,7 +43,7 @@ explore: ad_impressions_nested_joins_base_fb_adapter {
       ${fact.adset_id} = ${ads_insights__actions.adset_id} AND
       ${fact.campaign_id} = ${ads_insights__actions.campaign_id} AND
       ${fact.date_start_raw} = ${ads_insights__actions.date_start_raw}  AND
-      ${ads_insights__actions.action_type}  = "offsite_conversion" ;;
+      ${ads_insights__actions.action_type} = 'offsite_conversion' ;;
     relationship: one_to_one
   }
 
