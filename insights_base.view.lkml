@@ -310,7 +310,7 @@ view: ads_insights__actions_website_base {
   dimension: offsite_conversion_value {
     hidden: yes
     type: number
-    sql: if(${action_type} = 'offsite_conversion', ${value}, null) ;;
+    sql: CASE WHEN (${action_type} = 'offsite_conversion') THEN ${value} ELSE NULL END ;;
   }
 }
 
