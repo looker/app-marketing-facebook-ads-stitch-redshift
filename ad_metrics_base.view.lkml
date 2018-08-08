@@ -10,6 +10,15 @@ view: ad_metrics_conversion_fb_base_adapter {
     value_format_name: decimal_0
   }
 
+  measure: average_value_per_conversion {
+    hidden: yes
+    label: "Value per Conversion"
+    description: "Average value per conversion."
+    type: number
+    sql: ${fact.total_conversionvalue}*1.0 / NULLIF(${total_conversions},0) ;;
+    value_format_name: usd
+  }
+
   measure: average_cost_per_conversion {
     hidden: yes
     label: "Cost per Conversion"
