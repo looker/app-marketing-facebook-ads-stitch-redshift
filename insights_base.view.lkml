@@ -520,7 +520,7 @@ view: ads_insights__actions {
       ;;
   }
 
-  dimension: id {
+  dimension: primary_key {
     sql: ${ad_id} || '|'
         || ${adset_id} || '|'
         || ${campaign_id} || '|'

@@ -372,7 +372,7 @@ view: ad_impressions_platform_and_device_fb_adapter {
       || '|'::text || ${adset_id}
       || '|'::text || ${ad_id}
       || '|'::text || ${impression_device}
-      || '|'::text || ${platform_position} ;;
+      || '|'::text || ${platform_position_raw} ;;
   }
 
   dimension: impression_device {
