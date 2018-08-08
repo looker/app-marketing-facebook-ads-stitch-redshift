@@ -1,11 +1,11 @@
 include: "ad_transformations_base.view"
+include: "ad_metrics_base.view"
 include: "stitch_base.view.lkml"
 include: "/app_marketing_analytics_config/facebook_ads_config.view"
 
-
 view: insights_base {
   extension: required
-  extends: [stitch_base, ad_transformations_base]
+  extends: [stitch_base, ad_transformations_base, ad_metrics_fb_base_adapter]
 
   dimension: frequency {
     hidden: yes
@@ -286,6 +286,7 @@ view: insights_base {
 }
 
 view: ads_insights__actions_website_base {
+  extends: [ad_metrics_conversion_fb_base_adapter]
   extension: required
   dimension: action_destination {
     hidden: yes
