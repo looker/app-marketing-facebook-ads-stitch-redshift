@@ -400,6 +400,7 @@ view: adset__promoted_object {
   }
 
   dimension: custom_event_type {
+    hidden: yes
     type: string
   }
 

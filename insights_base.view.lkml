@@ -288,7 +288,7 @@ view: insights_base {
 view: ads_insights__actions_website_base {
   extension: required
   dimension: action_destination {
-    # hidden: yes
+    hidden: yes
     type: string
   }
 
@@ -298,7 +298,7 @@ view: ads_insights__actions_website_base {
   }
 
   dimension: action_type {
-    # hidden: yes
+    hidden: yes
     type: string
   }
 
@@ -556,7 +556,6 @@ view: ads_insights__actions {
     sql: ${TABLE}.action_target_id ;;
   }
 
-
   dimension_group: date_start {
     hidden: yes
     type: time
@@ -572,6 +571,14 @@ view: ads_insights__actions {
     ]
     allow_fill: no
     sql: ${TABLE}._sdc_source_key_date_start ;;
+  }
+
+  dimension: action_type {
+    hidden: no
+  }
+
+  dimension: action_destination {
+    hidden: no
   }
 }
 
