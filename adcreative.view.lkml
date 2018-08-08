@@ -115,6 +115,7 @@ view: adcreative_fb_adapter {
 
   dimension: status {
     type: string
+    hidden: yes
   }
 
   dimension: status_active {

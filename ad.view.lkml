@@ -218,38 +218,38 @@ view: ad__conversion_specs {
   }
 
   dimension: action_type {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.action_type ;;
   }
 
   dimension: id {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
     primary_key: yes
   }
 
   dimension: conversion_id {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.conversion_id ;;
   }
 
   dimension: page {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.page ;;
   }
 
   dimension: post {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.post ;;
   }
 
   dimension: post_wall {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.post_wall ;;
   }
@@ -274,26 +274,26 @@ view: ad__bid_info {
   }
 
   dimension: actions {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.actions ;;
   }
 
   dimension: id {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
     primary_key: yes
   }
 
   dimension: clicks {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.clicks ;;
   }
 
   dimension: reach {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.reach ;;
   }
@@ -423,7 +423,7 @@ view: ad__targeting {
   }
 
   dimension: id {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
     primary_key: yes
@@ -435,85 +435,85 @@ view: ad__targeting {
   }
 
   dimension: behaviors {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.behaviors ;;
   }
 
   dimension: interests {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.interests ;;
   }
 
   dimension: flexible_spec_interests {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.flexible_spec_interests ;;
   }
 
   dimension: custom_audiences {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.custom_audiences ;;
   }
 
   dimension: connections {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.connections ;;
   }
 
   dimension: work_employers {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.work_employers ;;
   }
 
   dimension: work_positions {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.work_positions ;;
   }
 
   dimension: device_platforms {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.device_platforms ;;
   }
 
   dimension: publisher_platforms {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.publisher_platforms ;;
   }
 
   dimension: flexible_spec_friends_of_connections {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.flexible_spec_friends_of_connections ;;
   }
 
   dimension: messenger_positions {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.messenger_positions ;;
   }
 
   dimension: facebook_positions {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.facebook_positions ;;
   }
 
   dimension: instagram_positions {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.instagram_positions ;;
   }
 
   dimension: targeting_optimization {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.targeting_optimization ;;
   }

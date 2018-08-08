@@ -288,7 +288,7 @@ view: insights_base {
 view: ads_insights__actions_website_base {
   extension: required
   dimension: action_destination {
-    hidden: yes
+    # hidden: yes
     type: string
   }
 
@@ -298,7 +298,7 @@ view: ads_insights__actions_website_base {
   }
 
   dimension: action_type {
-    hidden: yes
+    # hidden: yes
     type: string
   }
 
@@ -504,15 +504,20 @@ view: ads_insights__actions {
         , _sdc_source_key_campaign_id as campaign_id
         , _sdc_source_key_date_start as date_start
         , action_type
+        , action_target_id
+        , action_destination
         FROM {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__actions"
-        GROUP BY ad_id, adset_id, campaign_id, date_start, action_type
+        GROUP BY ad_id, adset_id, campaign_id, date_start, action_type, action_target_id, action_destination
       ) AS max_ads_actions
       ON actions._sdc_source_key_ad_id = max_ads_actions.ad_id
       AND actions._sdc_source_key_adset_id = max_ads_actions.adset_id
       AND actions._sdc_source_key_campaign_id = max_ads_actions.campaign_id
       AND actions._sdc_source_key_date_start = max_ads_actions.date_start
       AND actions._sdc_sequence = max_ads_actions.seq
-      AND actions.action_type = max_ads_actions.action_type ;;
+      AND actions.action_type = max_ads_actions.action_type
+      AND actions.action_target_id = max_ads_actions.action_target_id
+      AND actions.action_destination = max_ads_actions.action_destination
+      ;;
   }
 
   dimension: id {
@@ -520,6 +525,7 @@ view: ads_insights__actions {
         || ${adset_id} || '|'
         || ${campaign_id} || '|'
         || ${action_type} || '|'
+        || ${action_destination} || '|'
         || ${date_start_date} || '|'
         || ${action_target_id};;
     primary_key: yes

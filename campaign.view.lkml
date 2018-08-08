@@ -59,6 +59,7 @@ view: campaign_fb_adapter {
 
   dimension: effective_status {
     type: string
+    hidden: yes
   }
 
   dimension: status_active {
