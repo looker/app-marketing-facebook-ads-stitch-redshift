@@ -5,6 +5,7 @@ include: "insights_base.view"
 
 explore: ad_impressions_nested_joins_base_fb_adapter {
   extension: required
+  always_join: [ads_insights__actions]
 
   join: ads_insights__video_30_sec_watched_actions {
     view_label: "Ads Insights: Video 30 Sec Watched Actions"
@@ -42,8 +43,9 @@ explore: ad_impressions_nested_joins_base_fb_adapter {
       ${fact.ad_id} = ${ads_insights__actions.ad_id} AND
       ${fact.adset_id} = ${ads_insights__actions.adset_id} AND
       ${fact.campaign_id} = ${ads_insights__actions.campaign_id} AND
-      ${fact.date_start_raw} = ${ads_insights__actions.date_start_raw} ;;
-    relationship: one_to_many
+      ${fact.date_start_raw} = ${ads_insights__actions.date_start_raw} AND
+      ${ads_insights__actions.action_type} = 'offsite_conversion' ;;
+    relationship: one_to_one
   }
 
   join: ads_insights__video_15_sec_watched_actions {
