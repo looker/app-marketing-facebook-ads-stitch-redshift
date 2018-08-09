@@ -4,7 +4,7 @@ view: ad_transformations_base {
   dimension: conversions {
     hidden: yes
     type: number
-    sql: ${ads_insights__actions.offsite_conversion_value} ;;
+    sql: ${actions.offsite_conversion_value} ;;
   }
 
   dimension: conversionvalue {

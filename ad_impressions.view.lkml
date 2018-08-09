@@ -3,110 +3,8 @@ include: "/app_marketing_analytics_config/facebook_ads_config.view"
 include: "adcreative.view"
 include: "insights_base.view"
 
-explore: ad_impressions_nested_joins_base_fb_adapter {
-  extension: required
-
-  join: ads_insights__video_30_sec_watched_actions {
-    view_label: "Ads Insights: Video 30 Sec Watched Actions"
-    sql_on:
-      ${fact.ad_id} = ${ads_insights__video_30_sec_watched_actions.ad_id} AND
-      ${fact.adset_id} = ${ads_insights__video_30_sec_watched_actions.adset_id} AND
-      ${fact.campaign_id} = ${ads_insights__video_30_sec_watched_actions.campaign_id} AND
-      ${fact.date_start_raw} = ${ads_insights__video_30_sec_watched_actions.date_start_raw} ;;
-    relationship: one_to_many
-  }
-
-  join: ads_insights__video_p75_watched_actions {
-    view_label: "Ads Insights: Video P75 Watched Actions"
-    sql_on:
-      ${fact.ad_id} = ${ads_insights__video_p75_watched_actions.ad_id} AND
-      ${fact.adset_id} = ${ads_insights__video_p75_watched_actions.adset_id} AND
-      ${fact.campaign_id} = ${ads_insights__video_p75_watched_actions.campaign_id} AND
-      ${fact.date_start_raw} = ${ads_insights__video_p75_watched_actions.date_start_raw} ;;
-      relationship: one_to_many
-  }
-
-  join: ads_insights__video_p95_watched_actions {
-    view_label: "Ads Insights: Video P95 Watched Actions"
-    sql_on:
-      ${fact.ad_id} = ${ads_insights__video_p95_watched_actions.ad_id} AND
-      ${fact.adset_id} = ${ads_insights__video_p95_watched_actions.adset_id} AND
-      ${fact.campaign_id} = ${ads_insights__video_p95_watched_actions.campaign_id} AND
-      ${fact.date_start_raw} = ${ads_insights__video_p95_watched_actions.date_start_raw} ;;
-    relationship: one_to_many
-  }
-
-  join: ads_insights__actions {
-    view_label: "Ads Insights: Actions"
-    sql_on:
-      ${fact.ad_id} = ${ads_insights__actions.ad_id} AND
-      ${fact.adset_id} = ${ads_insights__actions.adset_id} AND
-      ${fact.campaign_id} = ${ads_insights__actions.campaign_id} AND
-      ${fact.date_start_raw} = ${ads_insights__actions.date_start_raw} AND
-      ${ads_insights__actions.action_type} = 'offsite_conversion' ;;
-    relationship: one_to_one
-  }
-
-  join: ads_insights__video_15_sec_watched_actions {
-    view_label: "Ads Insights: Video 15 Sec Watched Actions"
-    sql_on:
-      ${fact.ad_id} = ${ads_insights__video_p75_watched_actions.ad_id} AND
-      ${fact.adset_id} = ${ads_insights__video_p75_watched_actions.adset_id} AND
-      ${fact.campaign_id} = ${ads_insights__video_p75_watched_actions.campaign_id} AND
-      ${fact.date_start_raw} = ${ads_insights__video_p75_watched_actions.date_start_raw} ;;
-    relationship: one_to_many
-  }
-
-  join: ads_insights__video_10_sec_watched_actions {
-    view_label: "Ads Insights: Video 10 Sec Watched Actions"
-    sql_on:
-      ${fact.ad_id} = ${ads_insights__video_10_sec_watched_actions.ad_id} AND
-      ${fact.adset_id} = ${ads_insights__video_10_sec_watched_actions.adset_id} AND
-      ${fact.campaign_id} = ${ads_insights__video_10_sec_watched_actions.campaign_id} AND
-      ${fact.date_start_raw} = ${ads_insights__video_10_sec_watched_actions.date_start_raw} ;;
-    relationship: one_to_many
-  }
-
-  join: ads_insights__unique_actions {
-    view_label: "Ads Insights: Unique Actions"
-    sql: LEFT JOIN UNNEST(${fact.unique_actions}) as ads_insights__unique_actions ;;
-    relationship: one_to_many
-  }
-
-  join: ads_insights__video_p25_watched_actions {
-    view_label: "Ads Insights: Video P25 Watched Actions"
-    sql_on:
-      ${fact.ad_id} = ${ads_insights__video_p25_watched_actions.ad_id} AND
-      ${fact.adset_id} = ${ads_insights__video_p25_watched_actions.adset_id} AND
-      ${fact.campaign_id} = ${ads_insights__video_p25_watched_actions.campaign_id} AND
-      ${fact.date_start_raw} = ${ads_insights__video_p25_watched_actions.date_start_raw} ;;
-    relationship: one_to_many
-  }
-
-  join: ads_insights__video_p100_watched_actions {
-    view_label: "Ads Insights: Video P100 Watched Actions"
-    sql_on:
-      ${fact.ad_id} = ${ads_insights__video_p100_watched_actions.ad_id} AND
-      ${fact.adset_id} = ${ads_insights__video_p100_watched_actions.adset_id} AND
-      ${fact.campaign_id} = ${ads_insights__video_p100_watched_actions.campaign_id} AND
-      ${fact.date_start_raw} = ${ads_insights__video_p100_watched_actions.date_start_raw} ;;
-    relationship: one_to_many
-  }
-
-  join: ads_insights__video_p50_watched_actions {
-    view_label: "Ads Insights: Video P50 Watched Actions"
-    sql_on:
-      ${fact.ad_id} = ${ads_insights__video_p50_watched_actions.ad_id} AND
-      ${fact.adset_id} = ${ads_insights__video_p50_watched_actions.adset_id} AND
-      ${fact.campaign_id} = ${ads_insights__video_p50_watched_actions.campaign_id} AND
-      ${fact.date_start_raw} = ${ads_insights__video_p50_watched_actions.date_start_raw} ;;
-    relationship: one_to_many
-  }
-}
-
 explore: ad_impressions_base_fb_adapter {
   extension: required
-  extends: [ad_impressions_nested_joins_base_fb_adapter, campaign_nested_joins_base, adset_nested_joins_base, ad_nested_joins_base, adcreative_nested_joins_base]
   view_name: fact
   label: "Ad Impressions"
   view_label: "Ad Impressions"
@@ -146,12 +44,12 @@ explore: ad_impressions_fb_adapter {
   hidden: yes
   from: ad_impressions_fb_adapter
 
-  join: ads_insights__relevance_score {
-    view_label: "Ads Insights: Relevance Score"
+  join: actions {
+    from: ads_insights__actions
+    view_label: "Ads Insights: Actions"
     sql_on:
-      ${fact.ad_id}  = ${ads_insights__relevance_score.ad_id} AND
-      ${fact.adset_id} = ${ads_insights__relevance_score.adset_id} AND
-      ${fact.campaign_id} = ${ads_insights__relevance_score.campaign_id};;
+      ${fact.primary_key} = ${actions.insight_primary_key} AND
+      ${actions.action_type} = 'offsite_conversion' ;;
     relationship: one_to_one
   }
 }
@@ -180,16 +78,6 @@ view: ad_impressions_fb_adapter {
     AND facebook_ads_ads_insights._sdc_sequence = max_ads_insights.seq
   ) ;;
 
-  dimension: primary_key {
-    hidden: yes
-    primary_key: yes
-    sql: CAST(${_date} AS VARCHAR)
-      || '|'::text || ${account_id}
-      || '|'::text || ${campaign_id}
-      || '|'::text || ${adset_id}
-      || '|'::text || ${ad_id} ;;
-  }
-
   dimension: call_to_action_clicks {
     hidden: yes
     type: number
@@ -210,45 +98,24 @@ explore: ad_impressions_age_and_gender_fb_adapter {
   extends: [ad_impressions_base_fb_adapter]
   hidden: yes
   from: ad_impressions_age_and_gender_fb_adapter
+
+  join: actions {
+    from: ads_insights_age_and_gender__actions
+    view_label: "Ads Insights: Actions"
+    sql_on:
+      ${fact.primary_key} = ${actions.insight_primary_key} AND
+      ${actions.action_type} = 'offsite_conversion' ;;
+    relationship: one_to_one
+  }
 }
 
-view: ad_impressions_age_and_gender_fb_adapter {
-  extends: [insights_base, facebook_ads_config]
-  sql_table_name:
-  (
-  SELECT facebook_ads_ads_insights_age_and_gender.*
-  FROM {{ facebook_ads_schema._sql }}.facebook_ads_insights_age_and_gender_{{ facebook_account_id._sql }} AS facebook_ads_ads_insights_age_and_gender
-  INNER JOIN (
-  SELECT
-      MAX(_sdc_sequence) AS seq
-      , ad_id
-      , adset_id
-      , campaign_id
-      , date_start
-      , age
-      , gender
-  FROM {{ facebook_ads_schema._sql }}.facebook_ads_insights_age_and_gender_{{ facebook_account_id._sql }}
-  GROUP BY ad_id, adset_id, campaign_id, date_start, age, gender
-  ) AS max_ads_insights_age_and_gender
-  ON facebook_ads_ads_insights_age_and_gender.ad_id = max_ads_insights_age_and_gender.ad_id
-  AND facebook_ads_ads_insights_age_and_gender.adset_id = max_ads_insights_age_and_gender.adset_id
-  AND facebook_ads_ads_insights_age_and_gender.campaign_id = max_ads_insights_age_and_gender.campaign_id
-  AND facebook_ads_ads_insights_age_and_gender.date_start = max_ads_insights_age_and_gender.date_start
-  AND facebook_ads_ads_insights_age_and_gender.age = max_ads_insights_age_and_gender.age
-  AND facebook_ads_ads_insights_age_and_gender.gender = max_ads_insights_age_and_gender.gender
-  AND facebook_ads_ads_insights_age_and_gender._sdc_sequence = max_ads_insights_age_and_gender.seq
-  ) ;;
+view: age_and_gender_base_fb_adapter {
+  extension: required
 
-  dimension: primary_key {
+  dimension: breakdown {
     hidden: yes
-    primary_key: yes
-    sql: CAST(${_date} AS VARCHAR)
-      || '|'::text || ${account_id}
-      || '|'::text || ${campaign_id}
-      || '|'::text || ${adset_id}
-      || '|'::text || ${ad_id}
-      || '|'::text || ${age}
-      || '|'::text || ${gender};;
+    type: string
+    sql: ${age} || '|'::text || ${gender_raw} ;;
   }
 
   dimension: age {
@@ -281,15 +148,110 @@ view: ad_impressions_age_and_gender_fb_adapter {
   }
 }
 
+view: ad_impressions_age_and_gender_fb_adapter {
+  extends: [insights_base, facebook_ads_config, age_and_gender_base_fb_adapter]
+  sql_table_name:
+  (
+  SELECT facebook_ads_ads_insights_age_and_gender.*
+  FROM {{ facebook_ads_schema._sql }}.facebook_ads_insights_age_and_gender_{{ facebook_account_id._sql }} AS facebook_ads_ads_insights_age_and_gender
+  INNER JOIN (
+  SELECT
+      MAX(_sdc_sequence) AS seq
+      , ad_id
+      , adset_id
+      , campaign_id
+      , date_start
+      , age
+      , gender
+  FROM {{ facebook_ads_schema._sql }}.facebook_ads_insights_age_and_gender_{{ facebook_account_id._sql }}
+  GROUP BY ad_id, adset_id, campaign_id, date_start, age, gender
+  ) AS max_ads_insights_age_and_gender
+  ON facebook_ads_ads_insights_age_and_gender.ad_id = max_ads_insights_age_and_gender.ad_id
+  AND facebook_ads_ads_insights_age_and_gender.adset_id = max_ads_insights_age_and_gender.adset_id
+  AND facebook_ads_ads_insights_age_and_gender.campaign_id = max_ads_insights_age_and_gender.campaign_id
+  AND facebook_ads_ads_insights_age_and_gender.date_start = max_ads_insights_age_and_gender.date_start
+  AND facebook_ads_ads_insights_age_and_gender.age = max_ads_insights_age_and_gender.age
+  AND facebook_ads_ads_insights_age_and_gender.gender = max_ads_insights_age_and_gender.gender
+  AND facebook_ads_ads_insights_age_and_gender._sdc_sequence = max_ads_insights_age_and_gender.seq
+  ) ;;
+}
+
+view: ads_insights_age_and_gender__actions {
+  extends: [ads_insights__actions, age_and_gender_base_fb_adapter]
+  derived_table: {
+    sql:
+      SELECT actions.*
+      FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_age_and_gender_{{ actions.facebook_account_id._sql }}__actions" as actions
+      INNER JOIN (
+        SELECT
+        MAX(_sdc_sequence) AS seq
+        , _sdc_source_key_ad_id as ad_id
+        , _sdc_source_key_adset_id as adset_id
+        , _sdc_source_key_campaign_id as campaign_id
+        , _sdc_source_key_date_start as date_start
+        , action_type
+        , action_target_id
+        , action_destination
+        , _sdc_source_key_age
+        , _sdc_source_key_gender
+        FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_age_and_gender_{{ actions.facebook_account_id._sql }}__actions"
+        GROUP BY ad_id, adset_id, campaign_id, date_start, action_type, action_target_id, action_destination, _sdc_source_key_age, _sdc_source_key_gender
+      ) AS max_ads_actions
+      ON actions._sdc_source_key_ad_id = max_ads_actions.ad_id
+      AND actions._sdc_source_key_adset_id = max_ads_actions.adset_id
+      AND actions._sdc_source_key_campaign_id = max_ads_actions.campaign_id
+      AND actions._sdc_source_key_date_start = max_ads_actions.date_start
+      AND actions._sdc_sequence = max_ads_actions.seq
+      AND actions.action_type = max_ads_actions.action_type
+      AND actions.action_target_id = max_ads_actions.action_target_id
+      AND actions.action_destination = max_ads_actions.action_destination
+      AND actions._sdc_source_key_age = max_ads_actions._sdc_source_key_age
+      AND actions._sdc_source_key_gender = max_ads_actions._sdc_source_key_gender
+      ;;
+  }
+  dimension: age {
+    type: string
+    sql:  ${TABLE}._sdc_source_key_age ;;
+  }
+
+  dimension: gender_raw {
+    hidden: yes
+    type: string
+    sql: ${TABLE}._sdc_source_key_gender ;;
+  }
+}
+
 explore: ad_impressions_geo_fb_adapter {
   persist_with: facebook_ads_etl_datagroup
   extends: [ad_impressions_base_fb_adapter]
   hidden: yes
   from: ad_impressions_geo_fb_adapter
+
+  join: actions {
+    from: ads_insights_geo__actions
+    view_label: "Ads Insights: Actions"
+    sql_on:
+      ${fact.primary_key} = ${actions.insight_primary_key} AND
+      ${actions.action_type} = 'offsite_conversion' ;;
+    relationship: one_to_one
+  }
+}
+
+view: geo_base_fb_adapter {
+  extension: required
+
+  dimension: breakdown {
+    sql: ${country} ;;
+  }
+
+  dimension: country {
+    type: string
+    map_layer_name: countries
+  }
 }
 
 view: ad_impressions_geo_fb_adapter {
-  extends: [insights_base, facebook_ads_config]
+  extends: [insights_base, facebook_ads_config, geo_base_fb_adapter]
   sql_table_name:
   (
   SELECT facebook_ads_ads_insights_country.*
@@ -312,68 +274,65 @@ view: ad_impressions_geo_fb_adapter {
   AND facebook_ads_ads_insights_country.country = max_ads_insights_country.country
   AND facebook_ads_ads_insights_country._sdc_sequence = max_ads_insights_country.seq
   ) ;;
+}
 
-  dimension: primary_key {
-    hidden: yes
-    primary_key: yes
-    sql: CAST(${_date} as VARCHAR)
-      || '|'::text || ${account_id}
-      || '|'::text || ${campaign_id}
-      || '|'::text || ${adset_id}
-      || '|'::text || ${ad_id}
-      || '|'::text || ${country} ;;
-  }
-
-  dimension: country {
-    type: string
-    map_layer_name: countries
+view: ads_insights_geo__actions {
+  extends: [ads_insights__actions, geo_base_fb_adapter]
+  derived_table: {
+    sql:
+      SELECT actions.*
+      FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_country_{{ actions.facebook_account_id._sql }}__actions" as actions
+      INNER JOIN (
+        SELECT
+        MAX(_sdc_sequence) AS seq
+        , _sdc_source_key_ad_id as ad_id
+        , _sdc_source_key_adset_id as adset_id
+        , _sdc_source_key_campaign_id as campaign_id
+        , _sdc_source_key_date_start as date_start
+        , action_type
+        , action_target_id
+        , action_destination
+        , country
+        FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_country_{{ actions.facebook_account_id._sql }}__actions"
+        GROUP BY ad_id, adset_id, campaign_id, date_start, action_type, action_target_id, action_destination
+      ) AS max_ads_actions
+      ON actions._sdc_source_key_ad_id = max_ads_actions.ad_id
+      AND actions._sdc_source_key_adset_id = max_ads_actions.adset_id
+      AND actions._sdc_source_key_campaign_id = max_ads_actions.campaign_id
+      AND actions._sdc_source_key_date_start = max_ads_actions.date_start
+      AND actions._sdc_sequence = max_ads_actions.seq
+      AND actions.action_type = max_ads_actions.action_type
+      AND actions.action_target_id = max_ads_actions.action_target_id
+      AND actions.action_destination = max_ads_actions.action_destination
+      AND actions.country = max_ads_actions.country
+      ;;
   }
 }
+
 
 explore: ad_impressions_platform_and_device_fb_adapter {
   persist_with: facebook_ads_etl_datagroup
   extends: [ad_impressions_base_fb_adapter]
   hidden: yes
   from: ad_impressions_platform_and_device_fb_adapter
+
+  join: actions {
+    from: ads_insights_platform_and_device__actions
+    view_label: "Ads Insights: Actions"
+    sql_on:
+      ${fact.primary_key} = ${actions.insight_primary_key} AND
+      ${actions.action_type} = 'offsite_conversion' ;;
+    relationship: one_to_one
+  }
 }
 
-view: ad_impressions_platform_and_device_fb_adapter {
-  extends: [insights_base, facebook_ads_config]
-  sql_table_name:
-  (
-    SELECT facebook_ads_ads_insights_platform_and_device.*
-    FROM {{ facebook_ads_schema._sql }}.facebook_ads_insights_placement_and_device_{{ facebook_account_id._sql }} AS facebook_ads_ads_insights_platform_and_device
-    INNER JOIN (
-      SELECT
-          MAX(_sdc_sequence) AS seq
-          , ad_id
-          , adset_id
-          , campaign_id
-          , date_start
-          , placement
-          , impression_device
-      FROM {{ facebook_ads_schema._sql }}.facebook_ads_insights_placement_and_device_{{ facebook_account_id._sql }}
-      GROUP BY ad_id, adset_id, campaign_id, date_start, placement, impression_device
-    ) AS max_ads_insights_platform_and_device
-    ON facebook_ads_ads_insights_platform_and_device.ad_id = max_ads_insights_platform_and_device.ad_id
-    AND facebook_ads_ads_insights_platform_and_device.adset_id = max_ads_insights_platform_and_device.adset_id
-    AND facebook_ads_ads_insights_platform_and_device.campaign_id = max_ads_insights_platform_and_device.campaign_id
-    AND facebook_ads_ads_insights_platform_and_device.date_start = max_ads_insights_platform_and_device.date_start
-    AND facebook_ads_ads_insights_platform_and_device.placement = max_ads_insights_platform_and_device.placement
-    AND facebook_ads_ads_insights_platform_and_device.impression_device = max_ads_insights_platform_and_device.impression_device
-    AND facebook_ads_ads_insights_platform_and_device._sdc_sequence = max_ads_insights_platform_and_device.seq
-  ) ;;
+view: platform_and_device_base_fb_adapter {
+  extension: required
 
-  dimension: primary_key {
+  dimension: breakdown {
     hidden: yes
-    primary_key: yes
-    sql: CAST(${_date} AS VARCHAR)
-      || '|'::text || ${account_id}
-      || '|'::text || ${campaign_id}
-      || '|'::text || ${adset_id}
-      || '|'::text || ${ad_id}
-      || '|'::text || ${impression_device}
-      || '|'::text || ${platform_position_raw} ;;
+    type: string
+    sql: ${impression_device} || '|'::text || ${platform_position_raw} ;;
   }
 
   dimension: impression_device {
@@ -399,7 +358,6 @@ view: ad_impressions_platform_and_device_fb_adapter {
       else: "Other"
     }
   }
-
 
   dimension: platform_position_raw {
     hidden: yes
@@ -463,24 +421,77 @@ view: ad_impressions_platform_and_device_fb_adapter {
   dimension: publisher_platform {
     type: string
     label: "Platform"
-    case: {
-      when: {
-        sql: ${publisher_platform_raw} = 'facebook' ;;
-        label: "Facebook"
-      }
-      when: {
-        sql: ${publisher_platform_raw} = 'instagram' ;;
-        label: "Instagram"
-      }
-      when: {
-        sql: ${publisher_platform_raw} = 'audience_network';;
-        label: "Audience Network"
-      }
-      when: {
-        sql: ${publisher_platform_raw} = 'messenger';;
-        label: "Messenger"
-      }
-      else: "Other"
-    }
+    sql: 'NA'::text ;;
   }
+}
+
+view: ad_impressions_platform_and_device_fb_adapter {
+  extends: [insights_base, facebook_ads_config, platform_and_device_base_fb_adapter]
+  sql_table_name:
+  (
+    SELECT facebook_ads_ads_insights_platform_and_device.*
+    FROM {{ facebook_ads_schema._sql }}.facebook_ads_insights_placement_and_device_{{ facebook_account_id._sql }} AS facebook_ads_ads_insights_platform_and_device
+    INNER JOIN (
+      SELECT
+          MAX(_sdc_sequence) AS seq
+          , ad_id
+          , adset_id
+          , campaign_id
+          , date_start
+          , placement
+          , impression_device
+      FROM {{ facebook_ads_schema._sql }}.facebook_ads_insights_placement_and_device_{{ facebook_account_id._sql }}
+      GROUP BY ad_id, adset_id, campaign_id, date_start, placement, impression_device
+    ) AS max_ads_insights_platform_and_device
+    ON facebook_ads_ads_insights_platform_and_device.ad_id = max_ads_insights_platform_and_device.ad_id
+    AND facebook_ads_ads_insights_platform_and_device.adset_id = max_ads_insights_platform_and_device.adset_id
+    AND facebook_ads_ads_insights_platform_and_device.campaign_id = max_ads_insights_platform_and_device.campaign_id
+    AND facebook_ads_ads_insights_platform_and_device.date_start = max_ads_insights_platform_and_device.date_start
+    AND facebook_ads_ads_insights_platform_and_device.placement = max_ads_insights_platform_and_device.placement
+    AND facebook_ads_ads_insights_platform_and_device.impression_device = max_ads_insights_platform_and_device.impression_device
+    AND facebook_ads_ads_insights_platform_and_device._sdc_sequence = max_ads_insights_platform_and_device.seq
+  ) ;;
+}
+
+view: ads_insights_platform_and_device__actions {
+  extends: [ads_insights__actions, platform_and_device_base_fb_adapter]
+  derived_table: {
+    sql:
+      SELECT actions.*
+      FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_placement_and_device_{{ actions.facebook_account_id._sql }}__actions" as actions
+      INNER JOIN (
+        SELECT
+        MAX(_sdc_sequence) AS seq
+        , _sdc_source_key_ad_id as ad_id
+        , _sdc_source_key_adset_id as adset_id
+        , _sdc_source_key_campaign_id as campaign_id
+        , _sdc_source_key_date_start as date_start
+        , action_type
+        , action_target_id
+        , action_destination
+        , _sdc_source_key_placement
+        , _sdc_source_key_impression_device
+        FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_placement_and_device_{{ actions.facebook_account_id._sql }}__actions"
+        GROUP BY ad_id, adset_id, campaign_id, date_start, action_type, action_target_id, action_destination, _sdc_source_key_placement, _sdc_source_key_impression_device
+      ) AS max_ads_actions
+      ON actions._sdc_source_key_ad_id = max_ads_actions.ad_id
+      AND actions._sdc_source_key_adset_id = max_ads_actions.adset_id
+      AND actions._sdc_source_key_campaign_id = max_ads_actions.campaign_id
+      AND actions._sdc_source_key_date_start = max_ads_actions.date_start
+      AND actions._sdc_sequence = max_ads_actions.seq
+      AND actions.action_type = max_ads_actions.action_type
+      AND actions.action_target_id = max_ads_actions.action_target_id
+      AND actions.action_destination = max_ads_actions.action_destination
+      AND actions._sdc_source_key_placement = max_ads_actions._sdc_source_key_placement
+      AND actions._sdc_source_key_impression_device = max_ads_actions._sdc_source_key_impression_device
+      ;;
+  }
+  dimension: impression_device {
+    sql: ${TABLE}._sdc_source_key_impression_device ;;
+  }
+
+  dimension: platform_position_raw {
+    sql: ${TABLE}._sdc_source_key_placement ;;
+  }
+
 }

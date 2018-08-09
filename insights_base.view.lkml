@@ -7,6 +7,21 @@ view: insights_base {
   extension: required
   extends: [stitch_base, ad_transformations_base, ad_metrics_fb_base_adapter]
 
+  dimension: primary_key {
+    hidden: yes
+    primary_key: yes
+    sql: CAST(${_date} AS VARCHAR)
+      || '|'::text || ${campaign_id}
+      || '|'::text || ${adset_id}
+      || '|'::text || ${ad_id}
+      || '|'::text || ${breakdown} ;;
+  }
+
+  dimension: breakdown {
+    hidden: yes
+    sql: '1' ;;
+  }
+
   dimension: frequency {
     hidden: yes
     type: number
@@ -318,6 +333,34 @@ view: ads_insights__actions_website_base {
 view: ads_insights__actions_base {
   extends: [ads_insights__actions_website_base]
   extension: required
+
+  dimension: insight_primary_key {
+    hidden: yes
+    sql: CAST(${_date} AS VARCHAR)
+      || '|'::text || ${campaign_id}
+      || '|'::text || ${adset_id}
+      || '|'::text || ${ad_id}
+      || '|'::text || ${breakdown} ;;
+  }
+
+  dimension: action_primary_key {
+    hidden: yes
+    primary_key: yes
+    sql: CAST(${_date} AS VARCHAR)
+      || '|'::text || ${ad_id}
+      || '|'::text || ${adset_id}
+      || '|'::text || ${campaign_id}
+      || '|'::text || ${action_type}
+      || '|'::text || ${action_destination}
+      || '|'::text || ${action_target_id}
+      || '|'::text || ${breakdown} ;;
+  }
+
+  dimension: breakdown {
+    hidden: yes
+    sql: '1' ;;
+  }
+
   dimension: _1d_click {
     hidden: yes
     type: number
@@ -496,7 +539,7 @@ view: ads_insights__actions {
   derived_table: {
     sql:
       SELECT actions.*
-      FROM {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__actions" as actions
+      FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_{{ actions.facebook_account_id._sql }}__actions" as actions
       INNER JOIN (
         SELECT
         MAX(_sdc_sequence) AS seq
@@ -507,7 +550,7 @@ view: ads_insights__actions {
         , action_type
         , action_target_id
         , action_destination
-        FROM {{ facebook_ads_schema._sql }}."facebook_ads_insights_{{ facebook_account_id._sql }}__actions"
+        FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_{{ actions.facebook_account_id._sql }}__actions"
         GROUP BY ad_id, adset_id, campaign_id, date_start, action_type, action_target_id, action_destination
       ) AS max_ads_actions
       ON actions._sdc_source_key_ad_id = max_ads_actions.ad_id
@@ -519,18 +562,6 @@ view: ads_insights__actions {
       AND actions.action_target_id = max_ads_actions.action_target_id
       AND actions.action_destination = max_ads_actions.action_destination
       ;;
-  }
-
-  dimension: primary_key {
-    sql: ${ad_id} || '|'
-        || ${adset_id} || '|'
-        || ${campaign_id} || '|'
-        || ${action_type} || '|'
-        || ${action_destination} || '|'
-        || ${date_start_date} || '|'
-        || ${action_target_id};;
-    primary_key: yes
-    hidden: yes
   }
 
   dimension: ad_id {
@@ -571,7 +602,12 @@ view: ads_insights__actions {
       year
     ]
     allow_fill: no
-    sql: ${TABLE}._sdc_source_key_date_start ;;
+    sql: CAST(${TABLE}._sdc_source_key_date_start AS DATE) ;;
+  }
+
+  dimension: _date {
+    type: date_raw
+    sql: CAST(${TABLE}._sdc_source_key_date_start AS DATE) ;;
   }
 
   dimension: action_type {
