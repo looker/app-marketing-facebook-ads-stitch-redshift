@@ -44,8 +44,20 @@ explore: adcreative_fb_adapter {
 
 view: adcreative_fb_adapter {
   extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_adcreative_{{ facebook_account_id._sql }} ;;
-
+  # sql_table_name: {{ facebook_ads_schema._sql }}.facebook_adcreative_{{ facebook_account_id._sql }} ;;
+  sql_table_name: (
+    SELECT adcreative.*
+    FROM {{ facebook_ads_schema._sql }}.facebook_adcreative_{{ facebook_account_id._sql }} AS adcreative
+    INNER JOIN (
+      SELECT
+        MAX(_sdc_sequence) AS seq
+        , id
+      FROM {{ facebook_ads_schema._sql }}.facebook_adcreative_{{ facebook_account_id._sql }}
+      GROUP BY id
+      ) AS max_adcreative
+    ON adcreative.id = max_adcreative.id
+    AND adcreative._sdc_sequence = max_adcreative.seq
+  ) ;;
   dimension: id {
     hidden: yes
     primary_key: yes

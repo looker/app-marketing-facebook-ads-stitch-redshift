@@ -67,7 +67,20 @@ explore: ad_fb_adapter {
 
 view: ad_fb_adapter {
   extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }} ;;
+  # sql_table_name: {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }} ;;
+  sql_table_name: (
+    SELECT ads.*
+    FROM {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }} AS ads
+    INNER JOIN (
+      SELECT
+        MAX(_sdc_sequence) AS seq
+        , id
+      FROM {{ facebook_ads_schema._sql }}.facebook_ads_{{ facebook_account_id._sql }}
+      GROUP BY id
+      ) AS max_ads
+    ON ads.id = max_ads.id
+    AND ads._sdc_sequence = max_ads.seq
+  ) ;;
 
   dimension: id {
     hidden: yes

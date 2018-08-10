@@ -36,7 +36,21 @@ explore: campaign_fb_adapter {
 
 view: campaign_fb_adapter {
   extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_campaigns_{{ facebook_account_id._sql }} ;;
+  # sql_table_name: {{ facebook_ads_schema._sql }}.facebook_campaigns_{{ facebook_account_id._sql }} ;;
+  sql_table_name: (
+    SELECT campaigns.*
+    FROM {{ facebook_ads_schema._sql }}.facebook_campaigns_{{ facebook_account_id._sql }} AS campaigns
+    INNER JOIN (
+      SELECT
+        MAX(_sdc_sequence) AS seq
+        , id
+      FROM {{ facebook_ads_schema._sql }}.facebook_campaigns_{{ facebook_account_id._sql }}
+      GROUP BY id
+    ) AS max_campaigns
+    ON campaigns.id = max_campaigns.id
+    AND campaigns._sdc_sequence = max_campaigns.seq
+  ) ;;
+
 
   dimension: id {
     hidden: yes

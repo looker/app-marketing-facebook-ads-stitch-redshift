@@ -48,7 +48,21 @@ explore: adset_fb_adapter {
 
 view: adset_fb_adapter {
   extends: [stitch_base, facebook_ads_config]
-  sql_table_name: {{ facebook_ads_schema._sql }}.facebook_adsets_{{ facebook_account_id._sql }} ;;
+  # sql_table_name: {{ facebook_ads_schema._sql }}.facebook_adsets_{{ facebook_account_id._sql }} ;;
+  sql_table_name: (
+    SELECT adsets.*
+    FROM {{ facebook_ads_schema._sql }}.facebook_adsets_{{ facebook_account_id._sql }} AS adsets
+    INNER JOIN (
+      SELECT
+          MAX(_sdc_sequence) AS seq
+          , id
+      FROM {{ facebook_ads_schema._sql }}.facebook_adsets_{{ facebook_account_id._sql }}
+      GROUP BY id
+    ) AS max_adsets
+    ON adsets.id = max_adsets.id
+    AND adsets._sdc_sequence = max_adsets.seq
+  ) ;;
+
 
   dimension: id {
     hidden: yes
