@@ -280,7 +280,7 @@ view: ads_insights_geo__actions {
   extends: [ads_insights__actions, geo_base_fb_adapter]
   derived_table: {
     sql:
-      SELECT actions.*
+      SELECT actions.*, CAST('No Country Data' as TEXT) as country
       FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_country_{{ actions.facebook_account_id._sql }}__actions" as actions
       INNER JOIN (
         SELECT
@@ -292,7 +292,7 @@ view: ads_insights_geo__actions {
         , action_type
         , action_target_id
         , action_destination
-        , country
+        , CAST('No Country Data' as TEXT) as country
         FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_country_{{ actions.facebook_account_id._sql }}__actions"
         GROUP BY ad_id, adset_id, campaign_id, date_start, action_type, action_target_id, action_destination
       ) AS max_ads_actions
@@ -304,8 +304,8 @@ view: ads_insights_geo__actions {
       AND actions.action_type = max_ads_actions.action_type
       AND actions.action_target_id = max_ads_actions.action_target_id
       AND actions.action_destination = max_ads_actions.action_destination
-      AND actions.country = max_ads_actions.country
       ;;
+      # AND actions.country = max_ads_actions.country
   }
 }
 
