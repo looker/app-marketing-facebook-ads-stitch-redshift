@@ -1,5 +1,3 @@
-include: "/app_marketing_analytics_config/facebook_ads_config.view"
-
 include: "campaign.view"
 
 explore: adset_nested_joins_base {

@@ -1,7 +1,6 @@
 include: "ad_transformations_base.view"
 include: "ad_metrics_base.view"
 include: "stitch_base.view.lkml"
-include: "/app_marketing_analytics_config/facebook_ads_config.view"
 
 view: insights_base {
   extension: required

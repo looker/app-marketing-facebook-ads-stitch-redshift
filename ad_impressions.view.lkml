@@ -1,5 +1,3 @@
-include: "/app_marketing_analytics_config/facebook_ads_config.view"
-
 include: "adcreative.view"
 include: "insights_base.view"
 
