@@ -360,66 +360,68 @@ view: platform_and_device_base_fb_adapter {
   dimension: platform_position_raw {
     hidden: yes
     type: string
-    sql: ${TABLE}.placement ;;
+    sql: ${TABLE}.platform_position ;;
   }
 
   dimension: platform_position {
     type: string
-    case: {
-      when: {
-        sql: ${platform_position_raw} = 'feed' AND ${publisher_platform_raw} = 'instagram' ;;
-        label: "Feed"
-      }
-      when: {
-        sql: ${platform_position_raw} = 'feed' ;;
-        label: "News Feed"
-      }
-      when: {
-        sql: ${platform_position_raw} = 'an_classic' ;;
-        label: "Classic"
-      }
-      when: {
-        sql: ${platform_position_raw} = 'all_placements' ;;
-        label: "All"
-      }
-      when: {
-        sql: ${platform_position_raw} = 'instant_article' ;;
-        label: "Instant Article"
-      }
-      when: {
-        sql: ${platform_position_raw} = 'right_hand_column' ;;
-        label: "Right Column"
-      }
-      when: {
-        sql: ${platform_position_raw} = 'rewarded_video' ;;
-        label: "Rewarded Video"
-      }
-      when: {
-        sql: ${platform_position_raw} = 'suggested_video' ;;
-        label: "Suggested Video"
-      }
-      when: {
-        sql: ${platform_position_raw} = 'instream_video' ;;
-        label: "InStream Video"
-      }
-      when: {
-        sql: ${platform_position_raw} = 'messenger_inbox' ;;
-        label: "Messenger Home"
-      }
-      else: "Other"
-    }
+    label: "Position"
+    sql: ${platform_position_raw} ;;
+    # case: {
+    #  when: {
+    #    sql: ${platform_position_raw} = 'feed' AND ${publisher_platform_raw} = 'instagram' ;;
+    #    label: "Feed"
+    #  }
+    #  when: {
+    #    sql: ${platform_position_raw} = 'feed' ;;
+    #    label: "News Feed"
+    #  }
+    #  when: {
+    #    sql: ${platform_position_raw} = 'an_classic' ;;
+    #    label: "Classic"
+    #  }
+    #  when: {
+    #    sql: ${platform_position_raw} = 'all_placements' ;;
+    #    label: "All"
+    #  }
+    #  when: {
+    #    sql: ${platform_position_raw} = 'instant_article' ;;
+    #    label: "Instant Article"
+    #  }
+    #  when: {
+    #    sql: ${platform_position_raw} = 'right_hand_column' ;;
+    #    label: "Right Column"
+    #  }
+    #  when: {
+    #    sql: ${platform_position_raw} = 'rewarded_video' ;;
+    #    label: "Rewarded Video"
+    #  }
+    #  when: {
+    #    sql: ${platform_position_raw} = 'suggested_video' ;;
+    #    label: "Suggested Video"
+    #  }
+    #  when: {
+    #    sql: ${platform_position_raw} = 'instream_video' ;;
+    #    label: "InStream Video"
+    #  }
+    #  when: {
+    #    sql: ${platform_position_raw} = 'messenger_inbox' ;;
+    #    label: "Messenger Home"
+    #  }
+    #  else: "Other"
+    # }
   }
 
   dimension: publisher_platform_raw {
     hidden: yes
     type: string
-    sql: 'NA'::text ;;
+    sql: ${TABLE}.publisher_platform ;;
   }
 
   dimension: publisher_platform {
     type: string
     label: "Platform"
-    sql: 'NA'::text ;;
+    sql: ${publisher_platform_raw} ;;
   }
 }
 
@@ -428,7 +430,7 @@ view: ad_impressions_platform_and_device_fb_adapter {
   sql_table_name:
   (
     SELECT facebook_ads_ads_insights_platform_and_device.*
-    FROM {{ facebook_ads_schema._sql }}.facebook_ads_insights_placement_and_device_{{ facebook_account_id._sql }} AS facebook_ads_ads_insights_platform_and_device
+    FROM {{ facebook_ads_schema._sql }}.facebook_ads_insights_platform_and_device_{{ facebook_account_id._sql }} AS facebook_ads_ads_insights_platform_and_device
     INNER JOIN (
       SELECT
           MAX(_sdc_sequence) AS seq
@@ -436,16 +438,18 @@ view: ad_impressions_platform_and_device_fb_adapter {
           , adset_id
           , campaign_id
           , date_start
-          , placement
+          , publisher_platform
+          , platform_position
           , impression_device
-      FROM {{ facebook_ads_schema._sql }}.facebook_ads_insights_placement_and_device_{{ facebook_account_id._sql }}
-      GROUP BY ad_id, adset_id, campaign_id, date_start, placement, impression_device
+      FROM {{ facebook_ads_schema._sql }}.facebook_ads_insights_platform_and_device_{{ facebook_account_id._sql }}
+      GROUP BY ad_id, adset_id, campaign_id, date_start, publisher_platform, platform_position, impression_device
     ) AS max_ads_insights_platform_and_device
     ON facebook_ads_ads_insights_platform_and_device.ad_id = max_ads_insights_platform_and_device.ad_id
     AND facebook_ads_ads_insights_platform_and_device.adset_id = max_ads_insights_platform_and_device.adset_id
     AND facebook_ads_ads_insights_platform_and_device.campaign_id = max_ads_insights_platform_and_device.campaign_id
     AND facebook_ads_ads_insights_platform_and_device.date_start = max_ads_insights_platform_and_device.date_start
-    AND facebook_ads_ads_insights_platform_and_device.placement = max_ads_insights_platform_and_device.placement
+    AND facebook_ads_ads_insights_platform_and_device.publisher_platform = max_ads_insights_platform_and_device.publisher_platform
+    AND facebook_ads_ads_insights_platform_and_device.platform_position = max_ads_insights_platform_and_device.platform_position
     AND facebook_ads_ads_insights_platform_and_device.impression_device = max_ads_insights_platform_and_device.impression_device
     AND facebook_ads_ads_insights_platform_and_device._sdc_sequence = max_ads_insights_platform_and_device.seq
   ) ;;
@@ -456,7 +460,7 @@ view: ads_insights_platform_and_device__actions {
   derived_table: {
     sql:
       SELECT actions.*
-      FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_placement_and_device_{{ actions.facebook_account_id._sql }}__actions" as actions
+      FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_platform_and_device_{{ actions.facebook_account_id._sql }}__actions" as actions
       INNER JOIN (
         SELECT
         MAX(_sdc_sequence) AS seq
@@ -467,10 +471,11 @@ view: ads_insights_platform_and_device__actions {
         , action_type
         , action_target_id
         , action_destination
-        , _sdc_source_key_placement
+        , _sdc_source_key_publisher_platform
+        , _sdc_source_key_platform_position
         , _sdc_source_key_impression_device
-        FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_placement_and_device_{{ actions.facebook_account_id._sql }}__actions"
-        GROUP BY ad_id, adset_id, campaign_id, date_start, action_type, action_target_id, action_destination, _sdc_source_key_placement, _sdc_source_key_impression_device
+        FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_platform_and_device_{{ actions.facebook_account_id._sql }}__actions"
+        GROUP BY ad_id, adset_id, campaign_id, date_start, action_type, action_target_id, action_destination, _sdc_source_key_publisher_platform, _sdc_source_key_platform_position, _sdc_source_key_impression_device
       ) AS max_ads_actions
       ON actions._sdc_source_key_ad_id = max_ads_actions.ad_id
       AND actions._sdc_source_key_adset_id = max_ads_actions.adset_id
@@ -480,7 +485,8 @@ view: ads_insights_platform_and_device__actions {
       AND actions.action_type = max_ads_actions.action_type
       AND actions.action_target_id = max_ads_actions.action_target_id
       AND actions.action_destination = max_ads_actions.action_destination
-      AND actions._sdc_source_key_placement = max_ads_actions._sdc_source_key_placement
+      AND actions._sdc_source_key_publisher_platform = max_ads_actions._sdc_source_key_publisher_platform
+      AND actions._sdc_source_key_platform_position = max_ads_actions._sdc_source_key_platform_position
       AND actions._sdc_source_key_impression_device = max_ads_actions._sdc_source_key_impression_device
       ;;
   }
@@ -488,8 +494,12 @@ view: ads_insights_platform_and_device__actions {
     sql: ${TABLE}._sdc_source_key_impression_device ;;
   }
 
+  dimension: platform_platform_raw {
+    sql: ${TABLE}._sdc_source_key_publisher_platform ;;
+  }
+
   dimension: platform_position_raw {
-    sql: ${TABLE}._sdc_source_key_placement ;;
+    sql: ${TABLE}._sdc_source_key_platform_position ;;
   }
 
 }
