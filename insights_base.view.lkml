@@ -325,7 +325,7 @@ view: ads_insights__actions_website_base {
   dimension: offsite_conversion_value {
     hidden: yes
     type: number
-    sql: CASE WHEN (${action_type} = 'offsite_conversion') THEN ${value} ELSE NULL END ;;
+    sql: CASE WHEN (${action_type} LIKE 'offsite_conversion.custom%') THEN ${value} ELSE NULL END ;;
   }
 }
 
