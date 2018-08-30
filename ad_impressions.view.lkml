@@ -47,7 +47,7 @@ explore: ad_impressions_fb_adapter {
     view_label: "Ads Insights: Actions"
     sql_on:
       ${fact.primary_key} = ${actions.insight_primary_key} AND
-      ${actions.action_type} = 'offsite_conversion' ;;
+      ${actions.action_type} LIKE 'offsite_conversion.custom%' ;;
     relationship: one_to_one
   }
 }
@@ -102,7 +102,7 @@ explore: ad_impressions_age_and_gender_fb_adapter {
     view_label: "Ads Insights: Actions"
     sql_on:
       ${fact.primary_key} = ${actions.insight_primary_key} AND
-      ${actions.action_type} = 'offsite_conversion' ;;
+      ${actions.action_type} LIKE 'offsite_conversion.custom%' ;;
     relationship: one_to_one
   }
 }
@@ -230,7 +230,7 @@ explore: ad_impressions_geo_fb_adapter {
     view_label: "Ads Insights: Actions"
     sql_on:
       ${fact.primary_key} = ${actions.insight_primary_key} AND
-      ${actions.action_type} = 'offsite_conversion' ;;
+      ${actions.action_type} LIKE 'offsite_conversion.custom%' ;;
     relationship: one_to_one
   }
 }
@@ -319,7 +319,7 @@ explore: ad_impressions_platform_and_device_fb_adapter {
     view_label: "Ads Insights: Actions"
     sql_on:
       ${fact.primary_key} = ${actions.insight_primary_key} AND
-      ${actions.action_type} = 'offsite_conversion' ;;
+      ${actions.action_type} LIKE 'offsite_conversion.custom%' ;;
     relationship: one_to_one
   }
 }
