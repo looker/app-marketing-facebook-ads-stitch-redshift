@@ -81,10 +81,12 @@ view: campaign_fb_adapter {
 
   dimension: name {
     type: string
+    hidden: yes
   }
 
   dimension: objective {
     type: string
+    hidden: yes
   }
 
   dimension: start_date {

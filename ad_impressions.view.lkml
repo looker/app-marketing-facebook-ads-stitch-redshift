@@ -4,35 +4,42 @@ include: "insights_base.view"
 explore: ad_impressions_base_fb_adapter {
   extension: required
   view_name: fact
-  label: "Ad Impressions"
-  view_label: "Ad Impressions"
+  label: "Impressions"
+  view_label: "Impressions"
 
   join: campaign {
-    from: campaign_fb_adapter
+    from: campaign_fb
     type: left_outer
     sql_on: ${fact.campaign_id} = ${campaign.id} ;;
     relationship: many_to_one
   }
 
   join: adset {
-    from: adset_fb_adapter
+    from: adset_fb
     type: left_outer
     sql_on: ${fact.adset_id} = ${adset.id} ;;
     relationship: many_to_one
   }
 
   join: ad {
-    from: ad_fb_adapter
+    from: ad_fb
     type: left_outer
     sql_on: ${fact.ad_id} = ${ad.id} ;;
     relationship: many_to_one
   }
 
   join: adcreative {
-    from: adcreative_fb_adapter
+    from: adcreative_fb
     type: left_outer
     sql_on: ${ad.creative_id} = ${adcreative.id} ;;
     relationship: one_to_one
+  }
+
+  join: account {
+    from: account_fb
+    type: left_outer
+    sql_on: "1" = ${account.id} ;;
+    relationship: many_to_one
   }
 }
 
