@@ -43,30 +43,30 @@ explore: ad_fb_adapter {
   hidden: yes
 
   join: adcreative {
-    from: adcreative_fb_adapter
+    from: fb_adcreative
     type: left_outer
     sql_on: ${ad.creative_id} = ${adcreative.id} ;;
     relationship: one_to_one
   }
 
   join: adset {
-    from: adset_fb_adapter
+    from: fb_adset
     type: left_outer
     sql_on: ${ad.adset_id} = ${adset.id} ;;
     relationship: many_to_one
   }
 
   join: campaign {
-    from: campaign_fb_adapter
+    from: fb_campaign
     type: left_outer
     sql_on: ${ad.campaign_id} = ${campaign.id} ;;
     relationship: many_to_one
   }
 
   join: account {
-    from: account_fb_adapter
+    from: fb_account
     type: left_outer
-    sql_on: "1" = ${account.id} ;;
+    sql_on: '1' = ${account.id} ;;
     relationship: many_to_one
   }
 }

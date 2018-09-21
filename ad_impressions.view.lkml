@@ -7,39 +7,39 @@ explore: ad_impressions_base_fb_adapter {
   label: "Impressions"
   view_label: "Impressions"
 
+  join: account {
+    from: fb_account
+    type: left_outer
+    sql_on: '1' = ${account.id} ;;
+    relationship: many_to_one
+  }
+
   join: campaign {
-    from: campaign_fb
+    from: fb_campaign
     type: left_outer
     sql_on: ${fact.campaign_id} = ${campaign.id} ;;
     relationship: many_to_one
   }
 
   join: adset {
-    from: adset_fb
+    from: fb_adset
     type: left_outer
     sql_on: ${fact.adset_id} = ${adset.id} ;;
     relationship: many_to_one
   }
 
   join: ad {
-    from: ad_fb
+    from: fb_ad
     type: left_outer
     sql_on: ${fact.ad_id} = ${ad.id} ;;
     relationship: many_to_one
   }
 
   join: adcreative {
-    from: adcreative_fb
+    from: fb_adcreative
     type: left_outer
     sql_on: ${ad.creative_id} = ${adcreative.id} ;;
     relationship: one_to_one
-  }
-
-  join: account {
-    from: account_fb
-    type: left_outer
-    sql_on: "1" = ${account.id} ;;
-    relationship: many_to_one
   }
 }
 

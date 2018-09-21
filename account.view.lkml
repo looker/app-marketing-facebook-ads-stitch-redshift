@@ -5,15 +5,15 @@ explore: account_fb_adapter {
 view: account_fb_adapter {
   sql_table_name: (
     SELECT
-      "1" as id,
-      "Facebook" as name,
-      "ACTIVE" as account_status,
-      CURRENT_DATE() as created_time,
-      "USD" as currency,
+      '1' as id,
+      'Facebook' as name,
+      'ACTIVE' as account_status,
+      CURRENT_DATE as created_time,
+      'USD' as currency,
       0 as min_campaign_group_spend_cap,
       0 as min_daily_budget,
       0 as timezone_id,
-      "NA" as timezone_name,
+      'NA' as timezone_name,
       0 as timezone_offset_hours_utc
   ) ;;
   dimension: id {
@@ -28,7 +28,7 @@ view: account_fb_adapter {
   dimension: status_active {
     hidden: yes
     type: yesno
-    sql: ${account_status} = "ACTIVE" ;;
+    sql: ${account_status} = 'ACTIVE' ;;
   }
 
   dimension_group: created {

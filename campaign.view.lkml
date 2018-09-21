@@ -25,9 +25,9 @@ explore: campaign_fb_adapter {
   hidden: yes
 
   join: account {
-    from: account_fb_adapter
+    from: fb_account
     type: left_outer
-    sql_on: ${campaign.account_id} = ${account.id} ;;
+    sql_on: '1' = ${account.id} ;;
     relationship: many_to_one
   }
 }

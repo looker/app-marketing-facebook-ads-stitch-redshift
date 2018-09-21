@@ -36,16 +36,16 @@ explore: adset_fb_adapter {
   hidden: yes
 
   join: campaign {
-    from: campaign_fb_adapter
+    from: fb_campaign
     type: left_outer
     sql_on: ${adset.campaign_id} = ${campaign.id} ;;
     relationship: many_to_one
   }
 
   join: account {
-    from: account_fb_adapter
+    from: fb_account
     type: left_outer
-    sql_on: "1" = ${account.id} ;;
+    sql_on: '1' = ${account.id} ;;
     relationship: many_to_one
   }
 }
