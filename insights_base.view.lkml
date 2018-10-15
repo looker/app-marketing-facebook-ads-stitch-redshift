@@ -537,7 +537,25 @@ view: ads_insights__actions {
   extends: [stitch_base, facebook_ads_config, ads_insights__actions_base]
   derived_table: {
     sql:
-      SELECT actions.*
+      SELECT
+        CAST(actions._sdc_batched_at AS DATE),
+        CAST(actions._sdc_received_at AS DATE),
+        actions._sdc_sequence,
+        actions._sdc_source_key_ad_id,
+        actions._sdc_source_key_adset_id,
+        actions._sdc_source_key_campaign_id,
+        actions._sdc_source_key_date_start,
+        actions._sdc_table_version,
+        actions.action_target_id,
+        (CASE WHEN (actions.action_type LIKE 'offsite_conversion.custom%') THEN 'offsite_conversion.custom' ELSE actions.action_type END),
+        actions.action_destination,
+        SUM(actions.value) as value,
+        SUM(actions."1d_click") as "1d_click",
+        SUM(actions."1d_view") as "1d_view",
+        SUM(actions."28d_click") as "28d_click",
+        SUM(actions."28d_view") as "28d_view",
+        SUM(actions."7d_click") as "7d_click",
+        SUM(actions."7d_view") as "7d_view"
       FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_{{ actions.facebook_account_id._sql }}__actions" as actions
       INNER JOIN (
         SELECT
@@ -550,7 +568,14 @@ view: ads_insights__actions {
         , action_target_id
         , action_destination
         FROM {{ actions.facebook_ads_schema._sql }}."facebook_ads_insights_{{ actions.facebook_account_id._sql }}__actions"
-        GROUP BY ad_id, adset_id, campaign_id, date_start, action_type, action_target_id, action_destination
+        GROUP BY
+          ad_id,
+          adset_id,
+          campaign_id,
+          date_start,
+          action_type,
+          action_target_id,
+          action_destination
       ) AS max_ads_actions
       ON actions._sdc_source_key_ad_id = max_ads_actions.ad_id
       AND actions._sdc_source_key_adset_id = max_ads_actions.adset_id
@@ -560,6 +585,8 @@ view: ads_insights__actions {
       AND actions.action_type = max_ads_actions.action_type
       AND actions.action_target_id = max_ads_actions.action_target_id
       AND actions.action_destination = max_ads_actions.action_destination
+      GROUP BY
+        1,2,3,4,5,6,7,8,9,10,11
       ;;
   }
 
