@@ -1,3 +1,5 @@
+FORK TASMAN
+
 # Facebook Ads
 
 LookML files for a Facebook block compatible with [Stitch's Facebook Ads Insights ETL](https://www.stitchdata.com/integrations/facebook-ads/).
@@ -13,7 +15,9 @@ Note: This requires the Project Import feature currently in /admin/labs to be en
 Fork this repo and create a new project named `app-marketing-facebook-ads-adapter`
 
 manifest.lkml
-```LookML
+
+```
+LookML
 local_dependency: {
   project: "app-marketing-facebook-ads-adapter"
 }
@@ -21,12 +25,15 @@ local_dependency: {
 
 local_dependency: {
   project: "app-marketing-facebook-ads"
-}```
+}
+```
 
 Or remote dependency which don't require a local version.
 
 manifest.lkml
-```LookML
+
+```
+LookML
 
 remote_dependency: app-marketing-facebook-ads-adapter {
   url: "git://github.com/looker/app-marketing-facebook-ads-stitch-redshift"
@@ -36,7 +43,8 @@ remote_dependency: app-marketing-facebook-ads-adapter {
 remote_dependency: app-marketing-facebook-ads {
   url: "git://github.com/looker/app-marketing-facebook-ads"
   ref: "5a7d003d98be5b5adc93d7fd90bdd4105461186a"
-}```
+}
+```
 
 Note that the `ref:` should point to the latest commit in each respective repo [facebook-ads-stitch-redshift](https://github.com/looker/app-marketing-facebook-ads-stitch-redshift/commits/master) and [facebook-ads](https://github.com/looker/app-marketing-facebook-ads/commits/master).
 
@@ -45,7 +53,9 @@ Note that the `ref:` should point to the latest commit in each respective repo [
 For example:
 
 facebook_ads_config.view.lkml
-```LookML
+
+```
+LookML
 view: facebook_ads_config {
   extension: required
 
@@ -61,10 +71,13 @@ view: facebook_ads_config {
 For example:
 
 marketing_analytics.model.lkml
-```LookML
+
+```
+LookML
 include: "/app-marketing-facebook-ads-adapter/*.view"
 include: "/app-marketing-facebook-ads/*.view"
 include: "/app-marketing-facebook-ads/*.dashboard"
+
 ```
 
 
